@@ -173,7 +173,7 @@ body {
   .sidebar-dashboard-category {
     font-size: 14px;
     color: #bbb;
-    padding: 40px 0px 8px 16px;
+    padding: 45px 0px 8px 16px;
     text-align: left;
     cursor: default;
   }
@@ -253,11 +253,54 @@ body {
     overflow: auto;
   }
   
-  .charts-row {
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .filter-dashboard {
+    position: relative;
+    display: inline-block;
+    width: 200px; 
+  }
+  
+  .filter-dashboard .form-select {
+    padding-left: 2.2rem; 
+  }
+  
+  .filter-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #555;
+    pointer-events: none; 
+  }
+  
+  .btn-download-dashboard {
+    background-color: white;
+    border: none;
+    padding: 8px 8px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .date-dashboard h2{
+    color: black;
+    font-weight: 600;
+  }
+
+  .date-dashboard h5{
+    color: #555;
+  }
+  
+  .charts-dashboard {
     display: flex;
     gap: 20px;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-top: 30px;
   }
   
   canvas {
