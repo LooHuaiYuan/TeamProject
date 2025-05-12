@@ -286,6 +286,10 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   }
 
+  .btn-download-dashboard:hover {
+    background-color: rgb(223, 206, 160);
+  }
+
   .date-dashboard h2{
     color: black;
     font-weight: 600;
@@ -306,9 +310,33 @@ body {
   canvas {
     background: white;
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    max-width: 48%;
+    max-width: 100%;
     height: auto;
   }
   
+  .chart-container {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: calc(50% - 10px); 
+    margin-bottom: 20px;
+    display: flex;              
+    flex-direction: column;      
+    align-items: center;
+  }
+
+  .chart-title {
+    font-size: 25px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 15px;
+    padding-left: 5px;
+    align-self: flex-start; 
+  }
+
+@media (max-width: 768px) {
+  .chart-container {
+    width: 100%;
+  }
+}
