@@ -1,314 +1,375 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  height: 100%;
+}
+
+.hotel-logo-login {
+  width: 90px;
+  height: 90px;
+}
+
+.title-login {
+  font-size: 45px;
+  font-weight: 700;
+  color: black;
+  /* -webkit-text-stroke: 1px black;  */
+}
+
+.login-box {
+  background-color: white;
+  padding: 35px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  transition: 0.3s ease-in-out;
+}
+
+.login-box h2 {
+  color: rgb(132, 118, 83);
+  font-weight: 600;
+}
+
+.btn-login {
+  background-color: black;
+  color: white;
+  border-radius: 6px;
+  padding: 5px;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+}
+
+.btn-login:hover {
+  background-color: rgb(132, 118, 83);
+}
+
+.link-login a {
+  color: #3498db;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.link-login a:hover {
+  text-decoration: underline;
+}
+
+.animate-fadein {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-slidein {
+  animation: slideIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
   }
 
-  .hotel-logo-login {
-    width: 90px;
-    height: 90px;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .title-login {
-    font-size: 45px;
-    font-weight: 700;
-    color: black; 
-    /* -webkit-text-stroke: 1px black;  */
-  }
-  
-  .login-box {
-    background-color: white;
-    padding: 35px 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    transition: 0.3s ease-in-out;
-  }
-  
-  .login-box h2 {
-    color: rgb(132,118,83);
-    font-weight: 600;
-  }
-  
-  .btn-login {
-    background-color: black;
-    color: white;
-    border-radius: 6px;
-    padding: 5px;
-    transition: background-color 0.2s ease-in-out;
-    border: none;
-  }
-  
-  .btn-login:hover {
-    background-color: rgb(132,118,83);
-  }
-  
-  .link-login a {
-    color: #3498db;
-    text-decoration: none;
-    font-size: 14px;
-  }
-  
-  .link-login a:hover {
-    text-decoration: underline;
-  }
-  
-  .animate-fadein {
-    animation: fadeIn 1s ease-out;
-  }
-  
-  .animate-slidein {
-    animation: slideIn 1s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-  }
-  
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
 
-  .topnav {
-    background-color: #333;
-    color: white;
-    padding: 12px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .hotel-logo-dashboard-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .topnav-icons {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-    font-size: 30px;
-  }
-  
-  .topnav-icons i {
-    color: white;
-    cursor: pointer;
-  }
-  
-  .topnav-icons i:hover {
-    color: rgb(224, 213, 179);
-  }
-  
+}
 
-  .hotel-logo-dashboard-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; 
-  }
-  
-  .hotel-logo-dashboard {
-    height: 50px; 
-    width: 50px;
-  }
+.topnav {
+  background-color: #333;
+  color: white;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .dashboard-link {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .dashboard-link:hover {
-    color: rgb(224, 213, 179);
-  }
+.hotel-logo-dashboard-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .dashboard-link h2 {
-    font-weight: 700; 
-  }
-  
-  .wrapper {
-    display: flex;
-    flex-grow: 1;
-    min-height: 0;
-  }
- 
-  .menubar-btn-dashboard {
-    background-color: #444;
-    padding: 5px 10px;             
-    border: none;                 
-    color: white;                
-    font-size: 20px;             
-    cursor: pointer;
-    gap: 12px; 
-                     
-  }
-  
-  .menubar-btn-dashboard i {
-    font-size: 20px;           
-  }
-  
-  .menubar-btn-dashboard:hover {
-    background-color: rgb(132,118,83);            
-  }
+.topnav-icons {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  font-size: 30px;
+}
 
-  .sidebar-dashboard {
-    width: 200px;
-    background-color: #444;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    height: auto; 
-    justify-content: space-between;
-  }
+.topnav-icons i {
+  color: white;
+  cursor: pointer;
+}
 
-  .sidebar-dashboard-top {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .sidebar-dashboard-category {
-    font-size: 14px;
-    color: #bbb;
-    padding: 45px 0px 8px 16px;
-    text-align: left;
-    cursor: default;
-  }
+.topnav-icons i:hover {
+  color: rgb(224, 213, 179);
+}
 
-  .sidebar-dashboard-category:first-of-type {
-    padding: 16px 0px 8px 16px;
-  }
 
-  .sidebar-dashboard a {
-    padding: 8px 16px;
-    font-size: 17px;
-    text-decoration: none;
-    color: white;
-    display: block;
-    text-align: center;
-  }
-  
-  .sidebar-dashboard a:hover {
-    background-color: rgb(132,118,83);  
-  }
-  
-  .sidebar-dashboard.hidden {
-    display: none;
-  }
+.hotel-logo-dashboard-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .sidebar-dashboard-bottom {
-    margin-top: 40px;
-    border-top: 2px solid #777;
-  } 
+.hotel-logo-dashboard {
+  height: 50px;
+  width: 50px;
+}
 
-  .user-profile {
-    display: flex;
-    flex-direction: column;
-    color: white;
-    font-size: 23px;
-    
-    padding: 10px 7px;
-  }
-  
-  .user-name {
-    font-weight: bold;
-  }
+.dashboard-link {
+  text-decoration: none;
+  color: inherit;
+}
 
-  .user-info {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-    gap: 10px;
-  }
-  
-  .profile-image {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid white; 
-  }
-  
-  .logout-link {
-    align-self: flex-end; 
-    color: white;
-    text-decoration: none;
-    font-size: 14px !important;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+.dashboard-link:hover {
+  color: rgb(224, 213, 179);
+}
 
-  .logout-link:hover {
-    color: rgb(224, 213, 179); 
-    background-color: transparent !important;
-  }
+.dashboard-link h2 {
+  font-weight: 700;
+}
 
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    overflow: auto;
-  }
-  
-  .content-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .filter-dashboard {
-    position: relative;
-    display: inline-block;
-    width: 200px; 
-  }
-  
-  .filter-dashboard .form-select {
-    padding-left: 2.2rem; 
-  }
-  
-  .filter-icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #555;
-    pointer-events: none; 
-  }
-  
-  .btn-download-dashboard {
-    background-color: white;
-    border: none;
-    padding: 8px 8px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  min-height: 0;
+}
 
-  .date-dashboard h2{
-    color: black;
-    font-weight: 600;
-  }
+.menubar-btn-dashboard {
+  background-color: #444;
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  gap: 12px;
 
-  .date-dashboard h5{
-    color: #555;
-  }
-  
-  .charts-dashboard {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 30px;
-  }
-  
-  canvas {
-    background: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    max-width: 48%;
-    height: auto;
-  }
-  
+}
+
+.menubar-btn-dashboard i {
+  font-size: 20px;
+}
+
+.menubar-btn-dashboard:hover {
+  background-color: rgb(132, 118, 83);
+}
+
+.sidebar-dashboard {
+  width: 200px;
+  background-color: #444;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  justify-content: space-between;
+}
+
+.sidebar-dashboard-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-dashboard-category {
+  font-size: 14px;
+  color: #bbb;
+  padding: 45px 0px 8px 16px;
+  text-align: left;
+  cursor: default;
+}
+
+.sidebar-dashboard-category:first-of-type {
+  padding: 16px 0px 8px 16px;
+}
+
+.sidebar-dashboard a {
+  padding: 8px 16px;
+  font-size: 17px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  text-align: center;
+}
+
+.sidebar-dashboard a:hover {
+  background-color: rgb(132, 118, 83);
+}
+
+.sidebar-dashboard.hidden {
+  display: none;
+}
+
+.sidebar-dashboard-bottom {
+  margin-top: 40px;
+  border-top: 2px solid #777;
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 23px;
+
+  padding: 10px 7px;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.logout-link {
+  align-self: flex-end;
+  color: white;
+  text-decoration: none;
+  font-size: 14px !important;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logout-link:hover {
+  color: rgb(224, 213, 179);
+  background-color: transparent !important;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-dashboard {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+}
+
+.filter-dashboard .form-select {
+  padding-left: 2.2rem;
+}
+
+.filter-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #555;
+  pointer-events: none;
+}
+
+.btn-download-dashboard {
+  background-color: white;
+  border: none;
+  padding: 8px 8px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.date-dashboard h2 {
+  color: black;
+  font-weight: 600;
+}
+
+.date-dashboard h5 {
+  color: #555;
+}
+
+.charts-dashboard {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+canvas {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 48%;
+  height: auto;
+}
+
+/*Heater Page*/
+.heater-card {
+  color: black;
+  font-weight: bold;
+  border-radius: 12px;
+  text-align: center;
+  padding: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.heater-card:hover {
+  transform: scale(1.03);
+}
+
+.heater-on {
+  background-color: #22d61b;
+}
+
+.heater-off {
+  background-color: #d3d3d3;
+}
+
+.heater-error {
+  background-color: #f60c0c;
+  color: white;
+}
+
+.graph-container {
+  background-color: #f1f1f1;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+#heaterGraph {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+}
+
+.heater-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  display: block;
+}

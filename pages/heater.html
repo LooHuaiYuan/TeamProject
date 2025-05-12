@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heater Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css" />
+
+</head>
+
+<body>
+    <div class="topnav">
+        <div class="hotel-logo-dashboard-container">
+            <img src="../images/hotel_logo.png" class="hotel-logo-dashboard" />
+            <a href="dashboard.html" class="dashboard-link">
+                <h2>The Everly IoT</h2>
+            </a>
+        </div>
+
+        <div class="topnav-icons">
+            <i class="fas fa-user profile-icon"></i>
+            <i class="fas fa-comments chat-icon"></i>
+        </div>
+    </div>
+
+
+    <div class="menubar-dashboard">
+        <button id="toggle-menubar-dashboard" class="menubar-btn-dashboard">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+
+    <div class="wrapper">
+        <div id="sidebar-dashboard" class="sidebar-dashboard hidden">
+            <div class="sidebar-dashboard-top">
+                <div class="sidebar-dashboard-category">Quick Access</div>
+                <a href="#">Zoom Panel</a>
+                <a href="#">AC System</a>
+                <a href="#">Plate Pickup</a>
+
+                <div class="sidebar-dashboard-category">Others</div>
+                <a href="#">Staff Report</a>
+                <a href="#">Door Lock</a>
+                <a href="#">IoT Video Gallery</a>
+                <a href="#">User Metrics</a>
+
+                <div class="sidebar-dashboard-category">Support</div>
+                <a href="#">Report Problem</a>
+                <a href="#">Setting</a>
+            </div>
+
+            <div class="sidebar-dashboard-bottom">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <img src="../images/profile_image.jpg" alt="Profile" class="profile-image" />
+                        <span class="user-name">Rizal</span>
+                    </div>
+                    <a href="index.html" class="logout-link">
+                        <span>log out</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container my-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-secondary d-md-none" type="button">&#9776;</button>
+                <h2 class="text-center w-100">Heater</h2>
+            </div>
+
+            <div class="row text-center">
+                <!-- Generate heaters 1 to 10 -->
+                <!-- Example states: heater-on, heater-off, heater-error -->
+                <script>
+                    const heaterStates = [
+                        'on', 'on', 'off', 'on', 'off', 'error', 'on', 'off', 'on', 'on'
+                    ];
+                </script>
+
+                <!-- We'll manually write out the 12 heaters here for simplicity -->
+
+                <!-- Heaters 1–10 -->
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph(1)">
+                        <i class="bi bi-thermometer-high heater-icon"></i>Heater 1<br><span>38.7°</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph(2)">
+                        <i class="bi bi-thermometer-high heater-icon"></i>Heater 2<br><span>41.2°</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-off" onclick="updateGraph(3)">
+                        <i class="bi bi-thermometer-half heater-icon"></i>Heater 3<br><span>–</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph(4)">
+                        <i class="bi bi-thermometer-high heater-icon"></i>Heater 4<br><span>39.7°</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-off" onclick="updateGraph(5)">
+                        <i class="bi bi-thermometer-half heater-icon"></i>Heater 5<br><span>–</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-error" onclick="updateGraph(6)">
+                        <i class="bi bi-exclamation-triangle heater-icon"></i>Heater 6<br><span>–88°</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph(7)">
+                        <i class="bi bi-thermometer-high heater-icon"></i>Heater 7<br><span>40.0°</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-off" onclick="updateGraph(8)">
+                        <i class="bi bi-thermometer-half heater-icon"></i>Heater 8<br><span>–</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph(9)">
+                        <i class="bi bi-thermometer-high heater-icon"></i>Heater 9<br><span>39.0°</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph(10)">
+                        <i class="bi bi-thermometer-high heater-icon"></i>Heater 10<br><span>38.5°</span>
+                    </div>
+                </div>
+
+                <!-- Input Heater -->
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph('input')">
+                        <i class="bi bi-box-arrow-in-down heater-icon"></i>Input Heater<br><span>37.5°</span>
+                    </div>
+                </div>
+
+                <!-- Output Heater -->
+                <div class="col-6 col-md-3">
+                    <div class="heater-card heater-on" onclick="updateGraph('output')">
+                        <i class="bi bi-box-arrow-up heater-icon"></i>Output Heater<br><span>38.2°</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-container text-center">
+                <h4 id="graph-title">Graph of Heater 1</h4>
+                <div class="d-flex justify-content-center gap-2 my-3 flex-wrap">
+                    <select class="form-select w-auto" id="year-select">
+                        <option>Year</option>
+                        <option>2025</option>
+                        <option>2024</option>
+                    </select>
+                    <select class="form-select w-auto" id="month-select">
+                        <option>Month</option>
+                        <option>Jan</option>
+                        <option>Feb</option>
+                        <option>Mar</option>
+                        <option>Apr</option>
+                        <option>May</option>
+                        <option>Jun</option>
+                        <option>Jul</option>
+                        <option>Aug</option>
+                        <option>Sep</option>
+                        <option>Oct</option>
+                        <option>Nov</option>
+                        <option>Dec</option>
+                    </select>
+                    <select class="form-select w-auto" id="date-select">
+                        <option>Date</option>
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>08</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                        <option>31</option>
+                    </select>
+                </div>
+                <canvas id="heaterGraph"></canvas>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            let chart;
+
+            const dataSamples = {
+                1: [30, 45, 40, 35, 50, 60],
+                2: [25, 35, 38, 41, 42, 39],
+                3: [],
+                4: [39, 32, 43, 39, 29, 38],
+                5: [],
+                6: [-88, -88, 32, 12, 30, -88],
+                7: [40, 40, 41, 42, 40, 39],
+                8: [],
+                9: [35, 36, 38, 39, 39, 39],
+                10: [38.5, 38.6, 38.7, 38.8, 38.9, 39],
+                'input': [37, 37.2, 37.4, 37.5, 37.3, 37.5],
+                'output': [38.0, 38.1, 38.2, 38.1, 38.3, 38.2],
+            };
+
+            function renderChart(id) {
+                const ctx = document.getElementById('heaterGraph').getContext('2d');
+                if (chart) chart.destroy();
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+                        datasets: [{
+                            label: `Heater ${id} Temperature`,
+                            data: dataSamples[id] || [],
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateGraph(id) {
+                document.getElementById('graph-title').innerText = `Graph of Heater ${id}`;
+                renderChart(id);
+            }
+
+            // Default
+            renderChart(1);
+        </script>
+
+</body>
+
+</html>
