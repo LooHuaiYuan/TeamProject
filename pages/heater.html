@@ -269,7 +269,14 @@
             // Default
             renderChart(1);
         </script>
+        <script>
+            const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+            const sidebarDashboard = document.getElementById('sidebar-dashboard');
 
+            toggleBtn.addEventListener('click', () => {
+                sidebarDashboard.classList.toggle('hidden');
+            });
+        </script>
 </body>
 
 </html>
