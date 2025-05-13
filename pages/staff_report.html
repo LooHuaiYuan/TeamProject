@@ -157,9 +157,81 @@
       </div>
 
       <!-- bottom -->
+      <!-- Table Title -->
       <div class="staff-table-title">
-        <h2 id="selectedDateText"></h2>
+        <h2 id="selectedTableText"></h2>
       </div>
+
+      <!-- Table -->
+      <div class="container mt-4">
+        <div class="row">
+          <!-- Active Users Table -->
+          <div class="col-md-6 mb-4">
+            <h2 class="fs-4 mt-4">Active Users</h2>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Total Visits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Johan</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Syahril</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Syakir</td>
+                    <td>1</td>
+                  </tr>
+                  <!-- Add more active users here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Inactive Users Table -->
+          <div class="col-md-6 mb-4">
+            <h2 class="fs-4 mt-4">Inactive Users</h2>
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Total Visits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Alia</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Daniel</td>
+                    <td>0</td>
+                  </tr>
+                  <!-- Add more inactive users here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
 
     </div>
 
@@ -207,14 +279,18 @@
     document.getElementById('staff-applyFilterBtn').addEventListener('click', function () {
       const year = document.getElementById('staffYearSelect').value;
       const month = document.getElementById('staffMonthSelect').value;
-      const displaySpan = document.getElementById('selectedDateText');
 
-      if (year && month) {
-        displaySpan.textContent = `Staff Report for ${month} ${year}`;
-      } else {
-        displaySpan.textContent = '';
-      }
+      const departmentCheckboxes = document.querySelectorAll('#departmentMenu input[type="checkbox"]:checked');
+      const selectedDepartments = Array.from(departmentCheckboxes).map(cb => cb.value);
+
+      let departmentText = selectedDepartments.length > 0
+        ? selectedDepartments.join(', ')
+        : 'No department selected';
+
+      const displayText = `Selected: ${month} ${year} | Departments: ${departmentText}`;
+      document.getElementById('selectedTableText').textContent = displayText;
     });
+
   </script>
 
 
