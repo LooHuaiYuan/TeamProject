@@ -366,7 +366,55 @@ body {
     width: 100%;
   }
 }
-  
+ 
+/*Heater Page*/
+.heater-card {
+  color: black;
+  font-weight: bold;
+  border-radius: 12px;
+  text-align: center;
+  padding: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.heater-card:hover {
+  transform: scale(1.03);
+}
+
+.heater-on {
+  background-color: #22d61b;
+}
+
+.heater-off {
+  background-color: #d3d3d3;
+}
+
+.heater-error {
+  background-color: #f60c0c;
+  color: white;
+}
+
+.graph-container {
+  background-color: #f1f1f1;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+#heaterGraph {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+}
+
+.heater-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  display: block;
+}
+
 /*Plate-pickup page*/
 /* Main Container */
 .plate-container {
