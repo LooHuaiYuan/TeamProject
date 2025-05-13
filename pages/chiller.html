@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chiller & Freezer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+    <div class="topnav">
+        <div class="hotel-logo-dashboard-container">
+            <img src="../images/hotel_logo.png" class="hotel-logo-dashboard" />
+            <a href="dashboard.html" class="dashboard-link">
+                <h2>The Everly IoT</h2>
+            </a>
+        </div>
+        <div class="topnav-icons">
+            <i class="fas fa-user profile-icon"></i>
+            <i class="fas fa-comments chat-icon"></i>
+        </div>
+    </div>
+
+    <div class="menubar-dashboard">
+        <button id="toggle-menubar-dashboard" class="menubar-btn-dashboard">
+            <i class="fas fa-bars"></i> Menu
+        </button>
+    </div>
+
+    <div class="wrapper">
+        <div id="sidebar-dashboard" class="sidebar-dashboard hidden">
+            <div class="sidebar-dashboard-top">
+                <div class="sidebar-dashboard-category">Category</div>
+                <a href="#"><i class="fas fa-fan sidebar-icon-dashboard"></i>AC System</a>
+                <a href="heater.html"><i class="fas fa-thermometer-half sidebar-icon-dashboard"></i>Water Heater</a>
+                <a href="chiller.html"><i class="fas fa-snowflake sidebar-icon-dashboard"></i>Chiller & Freezer</a>
+                <a href="plate.html"><i class="fas fa-utensils sidebar-icon-dashboard"></i>Plate Pickup</a>
+            </div>
+            <div class="sidebar-dashboard-bottom">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <img src="../images/profile_image.jpg" alt="Profile" class="profile-image" />
+                        <span class="user-name">Rizal</span>
+                    </div>
+                    <a href="index.html" class="logout-link">
+                        <span>log out</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container my-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-secondary d-md-none" type="button">&#9776;</button>
+                <h2 id="chiller-h2" class="text-center w-100">Chiller & Freezer</h2>
+            </div>
+
+            <h4 class="text-center mb-3">Chiller Units</h4>
+            <div class="row text-center mb-4">
+                <!-- Chiller cards -->
+                <script>
+                    const chillerData = {
+                        "Dairy Chiller": 4.1,
+                        "Holding Chiller": 5.2,
+                        "Meat Chiller": 3.8,
+                        "Vegetable Chiller": 4.6,
+                        "Fuze Chiller": 4.0,
+                        "Banquet Chiller": 5.0
+                    };
+                </script>
+                <!-- Dynamically create chiller cards -->
+                <script>
+                    for (const [name, temp] of Object.entries(chillerData)) {
+                        document.write(`
+                        <div class="col-6 col-md-3">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('${name}')">
+                                <i class="bi bi-snow chiller-icon"></i>${name}<br><span>${temp}°C</span>
+                            </div>
+                        </div>`);
+                    }
+                </script>
+            </div>
+
+            <h4 class="text-center mb-3">Freezer Units</h4>
+            <div class="row text-center mb-4">
+                <!-- Freezer cards -->
+                <script>
+                    const freezerData = {
+                        "Holding Freezer": -18.5,
+                        "General Freezer": -20.0,
+                        "Fuze Freezer": -19.3,
+                        "Banquet Freezer": -21.1
+                    };
+                </script>
+                <script>
+                    for (const [name, temp] of Object.entries(freezerData)) {
+                        document.write(`
+                        <div class="col-6 col-md-3">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('${name}')">
+                                <i class="bi bi-snow2 chiller-icon"></i>${name}<br><span>${temp}°C</span>
+                            </div>
+                        </div>`);
+                    }
+                </script>
+            </div>
+
+            <div class="graph-container text-center">
+                <h4 id="graph-title">Graph of Dairy Chiller</h4>
+                <div class="d-flex justify-content-center gap-2 my-3 flex-wrap">
+                    <select class="form-select w-auto" id="year-select">
+                        <option>Year</option>
+                        <option>2025</option>
+                        <option>2024</option>
+                    </select>
+                    <select class="form-select w-auto" id="month-select">
+                        <option>Month</option>
+                        <option>Jan</option>
+                        <option>Feb</option>
+                        <option>Mar</option>
+                        <option>Apr</option>
+                        <option>May</option>
+                        <option>Jun</option>
+                        <option>Jul</option>
+                        <option>Aug</option>
+                        <option>Sep</option>
+                        <option>Oct</option>
+                        <option>Nov</option>
+                        <option>Dec</option>
+                    </select>
+                    <select class="form-select w-auto" id="date-select">
+                        <option>Date</option>
+                        ${[...Array(31).keys()].map(d => `<option>${String(d+1).padStart(2, '0')}</option>`).join('')}
+                    </select>
+                </div>
+                <canvas id="chillerGraph"></canvas>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            let chart;
+            const dataSamples = {
+                "Dairy Chiller": [4.0, 4.1, 4.2, 4.0, 4.1, 4.1],
+                "Holding Chiller": [5.0, 5.1, 5.2, 5.3, 5.2, 5.1],
+                "Meat Chiller": [3.8, 3.9, 3.7, 3.8, 3.9, 4.0],
+                "Vegetable Chiller": [4.5, 4.6, 4.4, 4.6, 4.7, 4.5],
+                "Fuze Chiller": [4.1, 4.0, 4.2, 4.1, 4.3, 4.2],
+                "Banquet Chiller": [5.0, 5.0, 5.1, 5.1, 5.0, 5.0],
+                "Holding Freezer": [-18.4, -18.5, -18.6, -18.5, -18.7, -18.5],
+                "General Freezer": [-20.1, -20.0, -20.2, -20.0, -20.3, -20.1],
+                "Fuze Freezer": [-19.3, -19.4, -19.2, -19.3, -19.5, -19.3],
+                "Banquet Freezer": [-21.0, -21.1, -21.2, -21.1, -21.3, -21.2]
+            };
+
+            function renderChart(id) {
+                const ctx = document.getElementById('chillerGraph').getContext('2d');
+                if (chart) chart.destroy();
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+                        datasets: [{
+                            label: `${id} Temperature`,
+                            data: dataSamples[id] || [],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateGraph(id) {
+                document.getElementById('graph-title').innerText = `Graph of ${id}`;
+                renderChart(id);
+            }
+
+            // Default graph
+            renderChart("Dairy Chiller");
+        </script>
+
+        <script>
+            const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+            const sidebarDashboard = document.getElementById('sidebar-dashboard');
+            toggleBtn.addEventListener('click', () => {
+                sidebarDashboard.classList.toggle('hidden');
+            });
+        </script>
+</body>
+
+</html>

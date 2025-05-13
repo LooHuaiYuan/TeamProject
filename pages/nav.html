@@ -1,0 +1,67 @@
+<!--For copy nav bar easily-->
+
+<div class="topnav">
+    <div class="hotel-logo-dashboard-container">
+      <img src="../images/hotel_logo.png" class="hotel-logo-dashboard" />
+      <a href="dashboard.html" class="dashboard-link">
+        <h2>The Everly IoT</h2>
+      </a>
+    </div>
+
+    <div class="topnav-icons">
+      <i class="fas fa-user profile-icon"></i>
+      <i class="fas fa-comments chat-icon"></i>
+    </div>
+  </div>
+
+
+  <div class="menubar-dashboard">
+    <button id="toggle-menubar-dashboard" class="menubar-btn-dashboard">
+      <i class="fas fa-bars"></i> Menu
+    </button>
+  </div>
+
+
+  <div class="wrapper">
+    <div id="sidebar-dashboard" class="sidebar-dashboard hidden">
+      <div class="sidebar-dashboard-top">
+        <div class="sidebar-dashboard-category">Quick Access</div>
+        <a href="#">Zoom Panel</a>
+        <a href="#">AC System</a>
+        <a href="#">Plate Pickup</a>
+
+        <div class="sidebar-dashboard-category">Others</div>
+        <a href="#">Staff Report</a>
+        <a href="#">Door Lock</a>
+        <a href="#">IoT Video Gallery</a>
+        <a href="#">User Metrics</a>
+
+        <div class="sidebar-dashboard-category">Support</div>
+        <a href="#">Report Problem</a>
+        <a href="#">Setting</a>
+      </div>
+
+      <div class="sidebar-dashboard-bottom">
+        <div class="user-profile">
+          <div class="user-info">
+            <img src="../images/profile_image.jpg" alt="Profile" class="profile-image" />
+            <span class="user-name">Rizal</span>
+          </div>
+          <a href="index.html" class="logout-link">
+            <span>log out</span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<script>
+    const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+    const sidebarDashboard = document.getElementById('sidebar-dashboard');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebarDashboard.classList.toggle('hidden');
+    });
+</script>
