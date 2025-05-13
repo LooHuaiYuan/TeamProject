@@ -506,3 +506,55 @@ body {
     align-items: flex-start;
   }
 }
+
+/* Chiller Page */
+#chiller-h2 {
+  font-weight: bold;
+}
+
+.chiller-card {
+  color: black;
+  font-weight: bold;
+  border-radius: 12px;
+  text-align: center;
+  padding: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.chiller-card:hover {
+  transform: scale(1.03);
+}
+
+.chiller-on {
+  background-color: #446fd2;
+}
+
+.chiller-off {
+  background-color: #d3d3d3;
+}
+
+.chiller-error {
+  background-color: #f60c0c;
+  color: white;
+}
+
+.graph-container {
+  background-color: #f1f1f1;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+#chillerGraph {
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100%;
+}
+
+.chiller-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  display: block;
+}
