@@ -157,20 +157,18 @@
       </div>
 
       <!-- bottom -->
-      <!-- FILTERED RESULTS SECTION: HIDDEN INITIALLY -->
+      <!-- Heading that shows selected filter info -->
+      <div class="staff-table-title mb-3">
+        <h2 id="selectedTableText">Please Select Year, Month & Department</h2>
+      </div>
+
       <div id="staffTablesContainer" class="d-none mt-4">
-
-        <!-- Heading that shows selected filter info -->
-        <div class="staff-table-title mb-3">
-          <h2 id="selectedTableText"></h2>
-        </div>
-
         <!-- Row for two tables side-by-side -->
         <div class="row">
           <!-- Active Users Table -->
           <div class="col-md-6">
             <h2 class="fs-5">Active Users</h2>
-            <div class="table-responsive">
+            <div class="staff-table-responsive">
               <table class="table table-bordered align-middle">
                 <thead class="table-light">
                   <tr>
@@ -203,7 +201,7 @@
           <!-- Inactive Users Table -->
           <div class="col-md-6">
             <h2 class="fs-5">Inactive Users</h2>
-            <div class="table-responsive">
+            <div class="staff-table-responsive">
               <table class="table table-bordered align-middle">
                 <thead class="table-light">
                   <tr>
@@ -229,12 +227,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
     </div>
 
   </div>
@@ -296,10 +288,6 @@
       document.getElementById('staffTablesContainer').classList.remove('d-none');
     });
   </script>
-
-
-
-
 
 </body>
 
