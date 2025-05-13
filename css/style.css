@@ -371,6 +371,10 @@ canvas {
 }
 
 /*Heater Page*/
+#heater-h2 {
+  font-weight: bold;
+}
+
 .heater-card {
   color: black;
   font-weight: bold;
@@ -622,10 +626,10 @@ canvas {
 }
 
 .staff-custom-dropdown.open+.staff-custom-dropdown-menu {
-  display: block; 
+  display: block;
 }
 
-.btn-filter-staff{
+.btn-filter-staff {
   background-color: white;
   border: none;
   padding: 6px 8px;
@@ -633,7 +637,7 @@ canvas {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.btn-download-staff{
+.btn-download-staff {
   background-color: white;
   border: none;
   padding: 6px 8px;
