@@ -68,81 +68,96 @@
       </div>
     </div>
 
-  </div>
+    <div class="staff-content">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
 
-  <div class="staff-content">
-    <div class="content-header d-flex justify-content-start align-items-center mb-3">
+        <!-- Left side: Filters -->
+        <div class="d-flex flex-wrap gap-3">
+          <!-- Year Filter -->
+          <div class="staff-filter position-relative">
+            <select id="staffYearSelect" class="form-select ps-5">
+              <option selected disabled hidden>Year</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+            </select>
+          </div>
 
-      <div class="staff-filter position-relative">
-        <select id="staffYearSelect" class="form-select ps-5">
-          <option selected disabled hidden>Year</option>
-          <option value="2025">2025</option>
-          <option value="2024">2024</option>
-        </select>
-      </div>
+          <!-- Month Filter -->
+          <div class="staff-filter position-relative">
+            <select id="staffMonthSelect" class="form-select ps-5">
+              <option selected disabled hidden>Month</option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
+          </div>
 
-      <div class="staff-filter position-relative">
-        <select id="staffMonthSelect" class="form-select ps-5">
-          <option selected disabled hidden>Month</option>
-          <option value="January">January</option>
-          <option value="February">February</option>
-          <option value="March">March</option>
-          <option value="April">April</option>
-          <option value="May">May</option>
-          <option value="June">June</option>
-          <option value="July">July</option>
-          <option value="August">August</option>
-          <option value="September">September</option>
-          <option value="October">October</option>
-          <option value="November">November</option>
-          <option value="December">December</option>
-        </select>
-      </div>
+          <!-- Department Dropdown -->
+          <div class="staff-filter position-relative">
+            <div class="form-select ps-5 staff-custom-dropdown" id="departmentDropdown" tabindex="0">Department</div>
+            <div class="staff-custom-dropdown-menu shadow" id="departmentMenu">
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="All Department" checked />
+                All
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="Admin" />
+                Admin
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="Maintenance Department" />
+                Maintenance
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="Fuze Department" />
+                Fuze
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="Sales Department" />
+                Sales
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="F&B Department" />
+                F&amp;B
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="House Keeping Department" />
+                House Keeping
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="View Only" />
+                View Only
+              </label>
+            </div>
+          </div>
 
-      <div class="staff-filter position-relative">
-        <div class="form-select ps-5 staff-custom-dropdown" id="departmentDropdown" tabindex="0"> Department</div>
-        <div class="staff-custom-dropdown-menu shadow" id="departmentMenu">
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="All Department" checked />
-            All
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="Admin" />
-            Admin
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="Maintenance Department" />
-            Maintenance
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="Fuze Department" />
-            Fuze
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="Sales Department" />
-            Sales
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="F&B Department" />
-            F&amp;B
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="House Keeping Department" />
-            House Keeping
-          </label>
-          <label class="staff-dropdown-item">
-            <input type="checkbox" value="View Only" />
-            View Only
-          </label>
-
+          <!-- Filter Button -->
+          <div class="staff-filter">
+            <button class="btn btn-primary">
+              <i class="fas fa-filter me-1"></i> Filter
+            </button>
+          </div>
         </div>
+
+        <!-- Right side: Download Button -->
+        <div class="pt-2">
+          <button class="btn-download-staff px-3 py-2">
+            <i class="fas fa-download me-1"></i> Download PDF
+          </button>
+        </div>
+
       </div>
-
-
-      <button class="btn-download-dashboard">
-        <i class="fas fa-download me-1"></i> Download PDF
-      </button>
     </div>
+
   </div>
 
   <script>
