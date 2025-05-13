@@ -416,6 +416,10 @@ canvas {
 }
 
 /*Heater Page*/
+#heater-h2 {
+  font-weight: bold;
+}
+
 .heater-card {
   color: black;
   font-weight: bold;
