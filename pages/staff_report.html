@@ -157,17 +157,19 @@
       </div>
 
       <!-- bottom -->
-      <!-- Table Title -->
-      <div class="staff-table-title">
-        <h2 id="selectedTableText"></h2>
-      </div>
+      <!-- FILTERED RESULTS SECTION: HIDDEN INITIALLY -->
+      <div id="staffTablesContainer" class="d-none mt-4">
 
-      <!-- Table -->
-      <div class="container mt-4">
+        <!-- Heading that shows selected filter info -->
+        <div class="staff-table-title mb-3">
+          <h2 id="selectedTableText"></h2>
+        </div>
+
+        <!-- Row for two tables side-by-side -->
         <div class="row">
           <!-- Active Users Table -->
-          <div class="col-md-6 mb-4">
-            <h2 class="fs-4 mt-4">Active Users</h2>
+          <div class="col-md-6">
+            <h2 class="fs-5">Active Users</h2>
             <div class="table-responsive">
               <table class="table table-bordered align-middle">
                 <thead class="table-light">
@@ -193,15 +195,14 @@
                     <td>Syakir</td>
                     <td>1</td>
                   </tr>
-                  <!-- Add more active users here -->
                 </tbody>
               </table>
             </div>
           </div>
 
           <!-- Inactive Users Table -->
-          <div class="col-md-6 mb-4">
-            <h2 class="fs-4 mt-4">Inactive Users</h2>
+          <div class="col-md-6">
+            <h2 class="fs-5">Inactive Users</h2>
             <div class="table-responsive">
               <table class="table table-bordered align-middle">
                 <thead class="table-light">
@@ -222,13 +223,14 @@
                     <td>Daniel</td>
                     <td>0</td>
                   </tr>
-                  <!-- Add more inactive users here -->
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+
+
 
 
 
@@ -289,9 +291,12 @@
 
       const displayText = `Selected: ${month} ${year} | Departments: ${departmentText}`;
       document.getElementById('selectedTableText').textContent = displayText;
-    });
 
+      // Show heading and both tables
+      document.getElementById('staffTablesContainer').classList.remove('d-none');
+    });
   </script>
+
 
 
 
