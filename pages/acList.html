@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AC List</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/> -->
-  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/> -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css" />
   <style>
@@ -17,13 +15,6 @@
     }
 
     .page-header {
-      /* background-color: #000;
-      color: #ffc107;
-      padding: 16px 30px;
-      font-weight: 500;
-      font-size: 20px;
-      display: flex;
-      align-items: center; */
       display: flex;
       align-items: center;
       padding: 1rem;
@@ -33,9 +24,6 @@
     }
 
     .page-header i {
-      /* font-size: 18px;
-      margin-right: 10px;
-      cursor: pointer; */
       color: #b08d57;
       font-size: 1.5rem;
       margin-right: 1rem;
@@ -76,7 +64,6 @@
     .table-wrapper {
       margin: 30px;
       background: #fff;
-      /* border-radius: 16px; */
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
       padding: 20px;
     }
@@ -108,7 +95,8 @@
     }
 
     .icon-check {
-      font-size: 18px;
+      /* font-size: 18px; */
+      font-size: 1.25rem;
       color: #ccc;
       cursor: pointer;
       transition: color 0.2s;
@@ -119,13 +107,15 @@
     }
 
     .badge-status {
-      font-size: 13px;
+      /* font-size: 13px; */
+      font-size: 0.75rem;
       border-radius: 12px;
       padding: 4px 10px;
     }
 
     .btn-action {
-      font-size: 13px;
+      /* font-size: 13px; */
+      font-size: 0.75rem;
       border-radius: 50%;
       padding: 6px 8px;
       margin-right: 4px;
@@ -141,13 +131,11 @@
       overflow: hidden;
       white-space: nowrap;
       transition: max-width 0.3s ease, margin-left 0.3s ease;
-      /* margin-left: 0; */
       opacity: 0;
     }
 
     .add-new-btn:hover .btn-text{
       max-width: 150px;
-      /* margin-left: 8px; */
       opacity: 1;
     }
     
@@ -169,13 +157,14 @@
     <div class="row g-2">
       <div class="col-md-4 d-flex align-items-center">
         <i class="fa fa-search me-2 text-white"></i>
-        <input type="text" class="form-control" placeholder="Search AC" />
+        <input type="text" class="form-control" placeholder="Search AC..." />
       </div>
       <div class="col-md-2">
         <select class="form-select">
-          <option>All AC</option>
+          <option>All ID</option>
           <option>AC001</option>
           <option>AC002</option>
+          <option>AC003</option>
         </select>
       </div>
       <div class="col-md-2">
@@ -194,7 +183,7 @@
         </select>
       </div>
       <div class="col-md-2">
-        <button class="btn search-btn w-100">Search</button>
+        <button class="btn search-btn w-100" onclick="applyFilters()">Search</button>
       </div>
     </div>
   </div>
@@ -219,65 +208,173 @@
           <th class="text-end">Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
-          <td>AC-001</td>
-          <td>BCS</td>
-          <td>M-floor</td>
-          <td><span class="badge bg-success badge-status">Active</span></td>
-          <td>2025-05-01</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary btn-action"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-sm btn-outline-danger btn-action"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>
-        <tr>
-          <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
-          <td>AC-002</td>
-          <td>Digital</td>
-          <td>1st floor</td>
-          <td><span class="badge text-black badge-status">Closed</span></td>
-          <td>2025-04-25</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary btn-action"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-sm btn-outline-danger btn-action"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>
-        <tr>
-          <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
-          <td>AC-003</td>
-          <td>Digital</td>
-          <td>M-floor</td>
-          <td><span class="badge bg-success badge-status">Active</span></td>
-          <td>2025-04-25</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary btn-action"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-sm btn-outline-danger btn-action"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>
-        <tr>
-          <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
-          <td>AC-002</td>
-          <td>Digital</td>
-          <td>2nd floor</td>
-          <td><span class="badge text-black badge-status">Closed</span></td>
-          <td>2025-04-25</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary btn-action"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-sm btn-outline-danger btn-action"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 
-  <script>
-    function toggleHighlight(icon) {
-      icon.classList.toggle("active");
-      icon.closest("tr").classList.toggle("highlighted");
+<!-- Modal -->
+<div class="modal fade" id="acModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-white text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Add New AC</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="ac-id-hidden" />
+        <div class="mb-3">
+          <label>ID</label>
+          <input type="text" class="form-control" id="ac-id" />
+        </div>
+        <div class="mb-3">
+          <label>System</label>
+          <select class="form-select" id="ac-system">
+            <option>BCS</option>
+            <option>Digital</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Location</label>          
+          <select class="form-select" id="ac-location">
+            <option>M-floor</option>
+            <option>1st floor</option>
+            <option>2nd floor</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Status</label>
+          <select class="form-select" id="ac-status">
+            <option>Active</option>
+            <option>Closed</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label>Date</label>
+          <input type="date" class="form-control" id="ac-date" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" onclick="saveAC()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let acData = [
+    { id: "AC-001", system: "BCS", location: "M-floor", status: "Active", date: "2025-05-01" },
+    { id: "AC-002", system: "Digital", location: "1st floor", status: "Closed", date: "2025-04-30" },
+    { id: "AC-003", system: "Digital", location: "M-floor", status: "Active", date: "2025-04-25" },
+    { id: "AC-004", system: "Digital", location: "2nd floor", status: "Closed", date: "2025-04-25" },
+  ];
+
+  const tbody = document.querySelector("tbody");
+  const modal = new bootstrap.Modal(document.getElementById("acModal"));
+  
+  function renderTable(data){
+    tbody.innerHTML = "";
+    data.forEach(ac => {
+      const statusBadge = ac.status ==="Active"
+        ? `<span class="badge bg-success badge-status">Active</span>`
+        : `<span class="badge bg-secondary badge-status">Closed</span>`;
+      tbody.innerHTML +=`
+        <tr>
+          <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
+          <td>${ac.id}</td>
+          <td>${ac.system}</td>
+          <td>${ac.location}</td>
+          <td>${statusBadge}</td>
+          <td>${ac.date}</td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary btn-action" onclick="openEditModal('${ac.id}')"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-sm btn-outline-danger btn-action" onclick="deleteAC('${ac.id}')"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>`;
+    });
+  }
+
+  function toggleHighlight(icon) {
+    icon.classList.toggle("active");
+    icon.closest("tr").classList.toggle("highlighted");
+  }
+
+  function applyFilters(){
+    const searchText = document.querySelector('input[type="text"]').value.toLowerCase();
+    const system = document.querySelectorAll("select")[0].value;
+    const category = document.querySelectorAll("select")[1].value;
+    const location = document.querySelectorAll("select")[2].value;
+
+    const filtered = acData.filter(ac => {
+    const matchesSearch = ac.id.toLowerCase().includes(searchText);
+    const matchesSystem = systemFilter === "All AC" || ac.id === systemFilter;
+    const matchesCategory = categoryFilter === "Category" || ac.system === categoryFilter;
+    const matchesLocation = locationFilter === "Location" || ac.location === locationFilter;
+    return matchesSearch && matchesSystem && matchesCategory && matchesLocation;
+      
+    });
+
+    renderTable(filtered);
+  }
+
+  document.querySelector(".search-btn").addEventListener("click", applyFilters);
+
+  function openEditModal(id){
+    const ac = acData.find(item => item.id ===id);
+    document.getElementById("modalTitle").innerText = "Edit AC";
+    document.getElementById("ac-id-hidden").value = ac.id;
+    document.getElementById("ac-id").value = ac.id;
+    document.getElementById("ac-system").value = ac.system;
+    document.getElementById("ac-location").value = ac.location;
+    document.getElementById("ac-status").value = ac.status;
+    document.getElementById("ac-date").value = ac.date;
+    modal.show();
+  }
+
+  function saveAC(){
+    const hiddenId = document.getElementById("ac-id-hidden").value;
+    const id = document.getElementById("ac-id").value;
+    const system = document.getElementById("ac-system").value;
+    const location = document.getElementById("ac-location").value;
+    const status = document.getElementById("ac-status").value;
+    const date = document.getElementById("ac-date").value;
+
+    if (hiddenId) {
+      const index = acData.findIndex(ac => ac.id === hiddenId);
+      acData[index] = { id, system, location, status, date };
+    } else {
+      acData.push({ id, system, location, status, date });
     }
-  </script>
+
+    modal.hide();
+    renderTable(acData);
+  }
+
+  function deleteAC(id){
+    if (confirm("Are you sure to delete " + id + "?")) {
+      const index = acData.findIndex(ac => ac.id === id);
+      if (index > -1) {
+        acData.splice(index, 1);
+        renderTable(acData);
+      }
+    }
+  }
+
+  document.querySelector(".add-new-btn").addEventListener("click", () => {
+    document.getElementById("modalTitle").innerText = "Add New AC";
+    document.getElementById("ac-id-hidden").value = "";
+    document.getElementById("ac-id").value = "";
+    document.getElementById("ac-system").value = "";
+    document.getElementById("ac-location").value = "";
+    document.getElementById("ac-status").value = "";
+    document.getElementById("ac-date").value = "";
+    modal.show();
+  });
+
+  //Initial table load
+  renderTable(acData);
+</script>
 
 </body>
 </html>
