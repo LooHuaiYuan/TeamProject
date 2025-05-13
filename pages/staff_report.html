@@ -142,7 +142,7 @@
 
           <!-- Filter Button -->
           <div class="staff-filter">
-            <button class="btn-filter-staff">
+            <button class="btn-filter-staff" id="staff-applyFilterBtn">
               <i class="fas fa-filter me-1"></i> Filter
             </button>
           </div>
@@ -155,12 +155,17 @@
           </button>
         </div>
       </div>
+
       <!-- bottom -->
-       
+      <div class="staff-table-title">
+        <h2 id="selectedDateText"></h2>
+      </div>
+
     </div>
 
   </div>
 
+  <!-- Sidebar -->
   <script>
     const toggleBtn = document.getElementById('toggle-menubar-dashboard');
     const sidebarDashboard = document.getElementById('sidebar-dashboard');
@@ -170,6 +175,7 @@
     });
   </script>
 
+  <!-- Department Dropdown checkbox -->
   <script>
     const dropdown = document.getElementById('departmentDropdown');
     const menu = document.getElementById('departmentMenu');
@@ -195,6 +201,24 @@
       }
     });
   </script>
+
+  <!-- Table Chosen Time -->
+  <script>
+    document.getElementById('staff-applyFilterBtn').addEventListener('click', function () {
+      const year = document.getElementById('staffYearSelect').value;
+      const month = document.getElementById('staffMonthSelect').value;
+      const displaySpan = document.getElementById('selectedDateText');
+
+      if (year && month) {
+        displaySpan.textContent = `Staff Report for ${month} ${year}`;
+      } else {
+        displaySpan.textContent = '';
+      }
+    });
+  </script>
+
+
+
 
 </body>
 
