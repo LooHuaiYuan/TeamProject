@@ -8,6 +8,22 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css" />
+  <style media="print">
+    /* Hide dropdowns */
+    select,
+    /* or more specific class, e.g. */
+    .dropdown,
+    /* Hide buttons */
+    button,
+    /* Hide the h2 with that id */
+    #selectedTableText {
+      display: none !important;
+    }
+    .staff-filter {
+      display: none !important;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -137,6 +153,14 @@
                 <input type="checkbox" value="View Only" />
                 View Only
               </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="Active" />
+                Active
+              </label>
+              <label class="staff-dropdown-item">
+                <input type="checkbox" value="Inactive" />
+                Inactive
+              </label>
             </div>
           </div>
 
@@ -150,7 +174,7 @@
 
         <!-- Right side: Download Button -->
         <div class="staff-download">
-          <button class="btn-download-staff px-3 py-2">
+          <button class="btn-download-staff px-3 py-2" id="printStaffBtn">
             <i class="fas fa-download me-1"></i> Download PDF
           </button>
         </div>
@@ -286,6 +310,41 @@
 
       // Show heading and both tables
       document.getElementById('staffTablesContainer').classList.remove('d-none');
+    });
+  </script>
+
+  <!-- Download Report Button -->
+  <script>
+    document.getElementById('printStaffBtn').addEventListener('click', function () {
+      const originalTitle = document.title;
+      document.title = "Staff Count Report by Month";
+
+      let printHeader = document.createElement('h1');
+      printHeader.textContent = "Staff Count Report by Month";
+      printHeader.id = "printHeader";
+      printHeader.style.textAlign = "center";
+      printHeader.style.margin = "20px 0";
+      printHeader.style.display = "none";
+
+      document.body.prepend(printHeader);
+
+      const style = document.createElement('style');
+      style.type = 'text/css';
+      style.media = 'print';
+      style.appendChild(document.createTextNode(`
+        #printHeader { display: block !important; }
+        .topnav, .menubar-dashboard, .sidebar-dashboard, #printBtn,
+        select, .dropdown, button, #selectedTableText {
+          display: none !important;
+        }
+      `));
+      document.head.appendChild(style);
+
+      window.print();
+
+      document.title = originalTitle;
+      printHeader.remove();
+      style.remove();
     });
   </script>
 
