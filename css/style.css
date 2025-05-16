@@ -440,46 +440,25 @@ canvas {
 .plate-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 50px;               /* increase space between cards */
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .plate-button {
-  flex: 1 1 calc(33.333% - 10px);
-  /* Shrink/Grow properly */
-  min-width: 250px;
-  max-width: calc(33.333% - 10px);
+  flex: 0 1 300px;         /* smaller base width */
+  max-width: 300px;
+  min-width: 220px;
   background-color: var(--color-1);
   border: 2px solid var(--color-5);
   border-radius: 10px;
   padding: 15px;
   box-sizing: border-box;
-  text-align: center;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Status Colors */
-.plate-time {
-  margin-top: 8px;
-  padding: 4px 8px;
-  border-radius: 5px;
-  display: inline-block;
-}
-
-.plate-red {
-  background-color: #ffcccc;
-  color: darkred;
-}
-
-.plate-orange {
-  background-color: #ffe0b3;
-  color: darkorange;
-}
-
-.plate-green {
-  background-color: #ccffcc;
-  color: darkgreen;
 }
 
 .plate-wrapper {
@@ -494,7 +473,47 @@ canvas {
   overflow: auto;
 }
 
+.plate-icon {
+  font-size: 40px;
+  color: var(--color-5);
+  margin-left: 50px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
 
+.plate-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.plate-floor {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.plate-time {
+  font-size: 20px;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Status Colors */
+.plate-red {
+  color: darkred;
+}
+
+/* Flashing full rectangle */
+@keyframes flashBg {
+  0%, 100% { background-color: var(--color-1); }
+  50% { background-color: #ffdddd; }
+}
+
+.flashing-button {
+  animation: flashBg 1s infinite;
+}
 
 
 /* Responsive Design */
