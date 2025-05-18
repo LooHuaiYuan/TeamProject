@@ -441,13 +441,15 @@ canvas {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px;               /* increase space between cards */
+  gap: 50px;
+  /* increase space between cards */
   max-width: 1100px;
   margin: 0 auto;
 }
 
 .plate-button {
-  flex: 0 1 300px;         /* smaller base width */
+  flex: 0 1 300px;
+  /* smaller base width */
   max-width: 300px;
   min-width: 220px;
   background-color: var(--color-1);
@@ -507,8 +509,15 @@ canvas {
 
 /* Flashing full rectangle */
 @keyframes flashBg {
-  0%, 100% { background-color: var(--color-1); }
-  50% { background-color: #ffdddd; }
+
+  0%,
+  100% {
+    background-color: var(--color-1);
+  }
+
+  50% {
+    background-color: #ffdddd;
+  }
 }
 
 .flashing-button {
@@ -554,8 +563,12 @@ canvas {
   transform: scale(1.03);
 }
 
+#floor-h5 {
+  font-weight: bold;
+}
+
 .chiller-on {
-  background-color: #446fd2;
+  background-color: rgb(64, 175, 254);
 }
 
 .chiller-off {
@@ -563,7 +576,7 @@ canvas {
 }
 
 .chiller-error {
-  background-color: #f60c0c;
+  background-color: #e42828;
   color: white;
 }
 

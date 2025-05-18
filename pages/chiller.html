@@ -2,16 +2,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chiller & Freezer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <title>Chiller & Freezers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../css/style.css" />
+
 </head>
 
 <body>
+
     <div class="topnav">
         <div class="hotel-logo-dashboard-container">
             <img src="../images/hotel_logo.png" class="hotel-logo-dashboard" />
@@ -19,17 +24,20 @@
                 <h2>The Everly IoT</h2>
             </a>
         </div>
+
         <div class="topnav-icons">
             <i class="fas fa-user profile-icon"></i>
             <i class="fas fa-comments chat-icon"></i>
         </div>
     </div>
 
+
     <div class="menubar-dashboard">
         <button id="toggle-menubar-dashboard" class="menubar-btn-dashboard">
             <i class="fas fa-bars"></i> Menu
         </button>
     </div>
+
 
     <div class="wrapper">
         <div id="sidebar-dashboard" class="sidebar-dashboard hidden">
@@ -54,61 +62,107 @@
             </div>
         </div>
 
+
         <div class="container my-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <button class="btn btn-outline-secondary d-md-none" type="button">&#9776;</button>
-                <h2 id="chiller-h2" class="text-center w-100">Chiller & Freezer</h2>
+            <!-- Floor Selector -->
+            <div class="d-flex justify-content-center align-items-center mb-4 flex-wrap">
+                <h2 id="chiller-h2" class="text-center m-0 me-3">Chiller & Freezer</h2>
+                <select class="form-select w-auto" id="floor-select">
+                    <option value="b2" selected>Level B2</option>
+                    <option value="g">Level G</option>
+                    <option value="1st">Level 1st</option>
+                </select>
             </div>
 
-            <h4 class="text-center mb-3">Chiller Units</h4>
-            <div class="row text-center mb-4">
-                <!-- Chiller cards -->
+
+            <!-- Chiller/Freezer Cards Grouped by Location -->
+            <div id="chiller-container">
                 <script>
-                    const chillerData = {
-                        "Dairy Chiller": 4.1,
-                        "Holding Chiller": 5.2,
-                        "Meat Chiller": 3.8,
-                        "Vegetable Chiller": 4.6,
-                        "Fuze Chiller": 4.0,
-                        "Banquet Chiller": 5.0
-                    };
+                    const chillerStates = [
+                        'on', 'on', 'off', 'on', 'off', 'error', 'on', 'off', 'on', 'on'
+                    ];
                 </script>
-                <!-- Dynamically create chiller cards -->
-                <script>
-                    for (const [name, temp] of Object.entries(chillerData)) {
-                        document.write(`
-                        <div class="col-6 col-md-3">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('${name}')">
-                                <i class="bi bi-snow chiller-icon"></i>${name}<br><span>${temp}°C</span>
+                <!-- B2 - RCFP Kitchen -->
+                <div class="floor-group" data-floor="b2">
+                    <h5 id="floor-h5">RCFP Kitchen:</h5>
+                    <div class="row justify-content-center">
+                        <div class="col-5 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on " onclick="updateGraph('Dairy Chiller')">
+                                <i class="bi bi-snow chiller-icon"></i>Dairy Chiller<br><span>4.1°C</span>
                             </div>
-                        </div>`);
-                    }
-                </script>
-            </div>
-
-            <h4 class="text-center mb-3">Freezer Units</h4>
-            <div class="row text-center mb-4">
-                <!-- Freezer cards -->
-                <script>
-                    const freezerData = {
-                        "Holding Freezer": -18.5,
-                        "General Freezer": -20.0,
-                        "Fuze Freezer": -19.3,
-                        "Banquet Freezer": -21.1
-                    };
-                </script>
-                <script>
-                    for (const [name, temp] of Object.entries(freezerData)) {
-                        document.write(`
-                        <div class="col-6 col-md-3">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('${name}')">
-                                <i class="bi bi-snow2 chiller-icon"></i>${name}<br><span>${temp}°C</span>
+                        </div>
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('Holding Chiller')">
+                                <i class="bi bi-snow chiller-icon"></i>Holding Chiller<br><span>5.2°C</span>
                             </div>
-                        </div>`);
-                    }
-                </script>
+                        </div>
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-off" onclick="updateGraph('Holding Freezer')">
+                                <i class="bi bi-snow2 chiller-icon"></i>Holding Freezer<br><span>-18.5°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B2 - RCFP Butcher -->
+                <div class="floor-group" data-floor="b2">
+                    <h5 id="floor-h5" class="mt-4">RCFP Butcher:</h5>
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('Meat Chiller')">
+                                <i class="bi bi-snow chiller-icon"></i>Meat Chiller<br><span>3.8°C</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-error" onclick="updateGraph('Vegetable Chiller')">
+                                <i class="bi bi-exclamation-triangle chiller-icon"></i>Vegetable
+                                Chiller<br><span>4.6°C</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('General Freezer')">
+                                <i class="bi bi-snow2 chiller-icon"></i>General Freezer<br><span>-20.0°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- G - Fuze Kitchen -->
+                <div class="floor-group" data-floor="g" style="display: none;">
+                    <h5 id="floor-h5">Fuze Kitchen:</h5>
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('Fuze Chiller')">
+                                <i class="bi bi-snow chiller-icon"></i>Fuze Chiller<br><span>4.0°C</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('Fuze Freezer')">
+                                <i class="bi bi-snow2 chiller-icon"></i>Fuze Freezer<br><span>-19.3°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1st - Banquet -->
+                <div class="floor-group" data-floor="1st" style="display: none;">
+                    <h5 id="floor-h5">Banquet:</h5>
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('Banquet Chiller')">
+                                <i class="bi bi-snow chiller-icon"></i>Banquet Chiller<br><span>5.0°C</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 gap-4">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('Banquet Freezer')">
+                                <i class="bi bi-snow2 chiller-icon"></i>Banquet Freezer<br><span>-21.1°C</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <!-- Graph Section -->
             <div class="graph-container text-center">
                 <h4 id="graph-title">Graph of Dairy Chiller</h4>
                 <div class="d-flex justify-content-center gap-2 my-3 flex-wrap">
@@ -138,79 +192,121 @@
                 </div>
                 <canvas id="chillerGraph"></canvas>
             </div>
-        </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            let chart;
-            const dataSamples = {
-                "Dairy Chiller": [4.0, 4.1, 4.2, 4.0, 4.1, 4.1],
-                "Holding Chiller": [5.0, 5.1, 5.2, 5.3, 5.2, 5.1],
-                "Meat Chiller": [3.8, 3.9, 3.7, 3.8, 3.9, 4.0],
-                "Vegetable Chiller": [4.5, 4.6, 4.4, 4.6, 4.7, 4.5],
-                "Fuze Chiller": [4.1, 4.0, 4.2, 4.1, 4.3, 4.2],
-                "Banquet Chiller": [5.0, 5.0, 5.1, 5.1, 5.0, 5.0],
-                "Holding Freezer": [-18.4, -18.5, -18.6, -18.5, -18.7, -18.5],
-                "General Freezer": [-20.1, -20.0, -20.2, -20.0, -20.3, -20.1],
-                "Fuze Freezer": [-19.3, -19.4, -19.2, -19.3, -19.5, -19.3],
-                "Banquet Freezer": [-21.0, -21.1, -21.2, -21.1, -21.3, -21.2]
-            };
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                let chart;
 
-            function renderChart(id) {
-                const ctx = document.getElementById('chillerGraph').getContext('2d');
-                if (chart) chart.destroy();
+                const sampleData = {
+                    "Dairy Chiller": [4.1, 4.2, 4.1, 4.0, 4.2, 4.3],
+                    "Holding Chiller": [5.2, 5.3, 5.1, 5.0, 5.2, 5.3],
+                    "Holding Freezer": [-18.5, -18.3, -18.7, -18.4, -18.5, -18.6],
+                    "Meat Chiller": [3.8, 3.9, 4.0, 3.7, 3.8, 3.9],
+                    "Vegetable Chiller": [4.6, 34.8, 49.4, -21.2, 43.5, 4.7],
+                    "General Freezer": [-20.0, -20.1, -19.9, -20.2, -20.0, -20.3],
+                    "Fuze Chiller": [4.0, 4.1, 4.0, 3.9, 4.0, 3.8],
+                    "Fuze Freezer": [-19.3, -19.5, -19.4, -19.2, -19.3, -19.1],
+                    "Banquet Chiller": [5.0, 5.1, 5.2, 5.0, 5.1, 5.2],
+                    "Banquet Freezer": [-21.1, -21.2, -21.0, -21.3, -21.1, -21.2]
+                };
 
-                chart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
-                        datasets: [{
-                            label: `${id} Temperature`,
-                            data: dataSamples[id] || [],
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: false
+                function updateGraph(chillerName) {
+                    document.getElementById("graph-title").innerText = `Graph of ${chillerName}`;
+                    renderChart(chillerName);
+                }
+
+                function renderChart(chillerName) {
+                    const ctx = document.getElementById('chillerGraph').getContext('2d');
+                    if (chart) chart.destroy();
+
+                    chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['01', '02', '03', '04', '05', '06'], // placeholder dates
+                            datasets: [{
+                                label: `${chillerName} Temperature (°C)`,
+                                data: sampleData[chillerName],
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                tension: 0.3,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: false
+                                }
                             }
                         }
+                    });
+                }
+
+                // Initialize with Dairy Chiller
+                updateGraph("Dairy Chiller");
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const dateSelect = document.getElementById("date-select");
+                    for (let i = 1; i <= 31; i++) {
+                        const option = document.createElement("option");
+                        option.value = option.text = i.toString().padStart(2, '0');
+                        dateSelect.appendChild(option);
+                    }
+
+                    // Floor selector
+                    const floorSelect = document.getElementById("floor-select");
+                    const allFloorGroups = document.querySelectorAll(".floor-group");
+
+                    function showSelectedFloor(floor) {
+                        allFloorGroups.forEach(group => {
+                            group.style.display = group.getAttribute("data-floor") === floor ? "block" : "none";
+                        });
+                    }
+
+                    floorSelect.addEventListener("change", () => {
+                        showSelectedFloor(floorSelect.value);
+                    });
+
+                    showSelectedFloor("b2"); // Default floor
+                    updateGraph("Dairy Chiller"); // Default graph
+                });
+            </script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const dateSelect = document.getElementById("date-select");
+                    for (let i = 1; i <= 31; i++) {
+                        const option = document.createElement("option");
+                        option.value = option.text = i.toString().padStart(2, '0');
+                        dateSelect.appendChild(option);
                     }
                 });
-            }
+            </script>
 
-            function updateGraph(id) {
-                document.getElementById('graph-title').innerText = `Graph of ${id}`;
-                renderChart(id);
-            }
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-            // Default graph
-            renderChart("Dairy Chiller");
-        </script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const dateSelect = document.getElementById("date-select");
-                for (let i = 1; i <= 31; i++) {
-                    const option = document.createElement("option");
-                    option.value = option.text = i.toString().padStart(2, '0');
-                    dateSelect.appendChild(option);
-                }
-            });
-        </script>
 
-        <script>
-            const toggleBtn = document.getElementById('toggle-menubar-dashboard');
-            const sidebarDashboard = document.getElementById('sidebar-dashboard');
-            toggleBtn.addEventListener('click', () => {
-                sidebarDashboard.classList.toggle('hidden');
-            });
-        </script>
+            <script>
+                const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+                const sidebarDashboard = document.getElementById('sidebar-dashboard');
+
+                toggleBtn.addEventListener('click', () => {
+                    sidebarDashboard.classList.toggle('hidden');
+                });
+            </script>
+
+        </div>
+
+
+
 </body>
 
 </html>
