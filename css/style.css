@@ -746,3 +746,45 @@ canvas {
 #acList-title:hover {
   color: rgb(248, 223, 148);
 }
+
+.ac-room-card .card-body {
+  min-height: 150px;
+}
+
+#ac-card-body {
+  background-color: #f60c0c;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.blinking {
+  animation: blinkRed 1s infinite;
+}
+
+@keyframes blinkRed {
+  0% {
+    background-color: #dc3545;
+  }
+
+  50% {
+    background-color: #f15959;
+  }
+
+  100% {
+    background-color: #dc3545;
+  }
+}
+
+#ac-details-popup p {
+  font-size: 19px;
+}
+
+.ac-detail-temperature-title label {
+  font-size: 30px;
+}
+
+.ac-off-card,
+.badge-ac-off {
+  background-color: #eeeded;
+  color: #d1cfcf;
+}
