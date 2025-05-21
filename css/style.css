@@ -4,6 +4,7 @@
   --color-3: #dcc07f;
   --color-4: #caa346;
   --color-5: #b8850f;
+  --color-6: #52ec55;
 }
 
 
@@ -391,7 +392,7 @@ canvas {
 }
 
 .heater-on {
-  background-color: #22d61b;
+  background-color: #52ec55;
 }
 
 .heater-off {
@@ -399,7 +400,8 @@ canvas {
 }
 
 .heater-error {
-  background-color: #f60c0c;
+  background-color: #f60c0c; 
+  /* background-color: #DC3545; */
   color: white;
 }
 
@@ -568,7 +570,8 @@ canvas {
 }
 
 .chiller-on {
-  background-color: rgb(64, 175, 254);
+  background-color: #52ec55;
+  /* background-color: rgb(64, 175, 254); */
 }
 
 .chiller-off {
@@ -576,7 +579,7 @@ canvas {
 }
 
 .chiller-error {
-  background-color: #e42828;
+  background-color: #f60c0c;
   color: white;
 }
 
