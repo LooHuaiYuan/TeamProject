@@ -155,14 +155,6 @@
                 <input type="checkbox" value="View Only" />
                 View Only
               </label>
-              <label class="staff-dropdown-item">
-                <input type="checkbox" value="Active" />
-                Active
-              </label>
-              <label class="staff-dropdown-item">
-                <input type="checkbox" value="Inactive" />
-                Inactive
-              </label>
             </div>
           </div>
 
@@ -315,11 +307,8 @@
         return;
       }
 
-      let departmentText = selectedDepartments.length > 0
-        ? selectedDepartments.join(', ')
-        : 'No department selected';
-
-      const displayText = `Selected: ${month} ${year} | Departments: ${departmentText}`;
+      // Only show month and year in the display text
+      const displayText = `${month} ${year}`;
       document.getElementById('selectedTableText').textContent = displayText;
 
       // Show loading state
@@ -328,14 +317,22 @@
       tablesContainer.innerHTML = '<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Loading report data...</p></div>';
 
       // Fetch data from API
-      fetch(`api.php?action=get_report&year=${year}&month=${month}&departments=${selectedDepartments.join(',')}`)
-        .then(response => response.json())
+      fetch(`../php/api.php?action=get_report&year=${year}&month=${month}&departments=${selectedDepartments.join(',')}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
         .then(data => {
+          if (data.error) {
+            throw new Error(data.error);
+          }
           renderReportTables(data, selectedDepartments, month, year);
         })
         .catch(error => {
           console.error('Error:', error);
-          tablesContainer.innerHTML = '<div class="alert alert-danger">Failed to load report data. Please try again.</div>';
+          tablesContainer.innerHTML = `<div class="alert alert-danger">Failed to load report data: ${error.message}</div>`;
         });
     });
 
@@ -343,59 +340,66 @@
       const tablesContainer = document.getElementById('staffTablesContainer');
       tablesContainer.innerHTML = '';
 
-      // Create a row for the main tables
-      const mainRow = document.createElement('div');
-      mainRow.className = 'row';
-      tablesContainer.appendChild(mainRow);
-
       // Create container for All Department table if selected
-      if (selectedDepartments.includes('All Department') && data.all_department.length > 0) {
-        const allDeptCol = document.createElement('div');
-        allDeptCol.className = 'col-md-12 mb-4';
-        mainRow.appendChild(allDeptCol);
+      if (selectedDepartments.includes('All Department') && data.all_department?.length > 0) {
+        const allDeptSection = document.createElement('div');
+        allDeptSection.className = 'mb-4';
 
         const allDeptTitle = document.createElement('h2');
         allDeptTitle.className = 'fs-5 mb-3';
         allDeptTitle.textContent = 'All Department';
-        allDeptCol.appendChild(allDeptTitle);
+        allDeptSection.appendChild(allDeptTitle);
 
         const allDeptTable = createTable(
           ['Rank', 'User', 'Total Visits'],
           data.all_department.map(item => [item.rank, item.user, item.total_visits || 0])
         );
-        allDeptCol.appendChild(allDeptTable);
+        allDeptSection.appendChild(allDeptTable);
+
+        tablesContainer.appendChild(allDeptSection);
       }
 
-      // Create columns for each selected department
-      for (const dept of selectedDepartments) {
-        if (dept === 'All Department' || dept === 'Active' || dept === 'Inactive') continue;
+      // Create tables for each selected department (excluding "All Department")
+      const regularDepartments = selectedDepartments.filter(dept => dept !== 'All Department');
 
-        if (data.by_department[dept] && data.by_department[dept].length > 0) {
+      if (regularDepartments.length > 0) {
+        const deptRow = document.createElement('div');
+        deptRow.className = 'row';
+        tablesContainer.appendChild(deptRow);
+
+        regularDepartments.forEach(dept => {
           const deptCol = document.createElement('div');
           deptCol.className = 'col-md-6 mb-4';
-          mainRow.appendChild(deptCol);
+          deptRow.appendChild(deptCol);
 
           const deptTitle = document.createElement('h2');
           deptTitle.className = 'fs-5 mb-3';
           deptTitle.textContent = dept;
           deptCol.appendChild(deptTitle);
 
-          const deptTable = createTable(
-            ['No.', 'User', 'Total Visits'],
-            data.by_department[dept].map(item => [item.no, item.user, item.total_visits || 0])
-          );
+          const deptData = data.by_department[dept] || [];
+          const headers = ['No.', 'User', 'Total Visits'];
+          const rows = deptData.length > 0
+            ? deptData.map(item => [item.no, item.user, item.total_visits || 0])
+            : [['-', 'No staff in this department', '-']];
+
+          const deptTable = createTable(headers, rows);
           deptCol.appendChild(deptTable);
-        }
+        });
       }
 
-      // Create a row for active/inactive users if selected
-      if (selectedDepartments.includes('Active') || selectedDepartments.includes('Inactive')) {
-        const statusRow = document.createElement('div');
-        statusRow.className = 'row mt-4';
-        tablesContainer.appendChild(statusRow);
+      // Create Active/Inactive tables section if there's data
+      if (data.active_users?.length > 0 || data.inactive_users?.length > 0) {
+        const statusSection = document.createElement('div');
+        statusSection.className = 'mt-4';
+        tablesContainer.appendChild(statusSection);
 
-        // Active users table
-        if (selectedDepartments.includes('Active') && data.active_users.length > 0) {
+        const statusRow = document.createElement('div');
+        statusRow.className = 'row';
+        statusSection.appendChild(statusRow);
+
+        // Active Users Table
+        if (data.active_users?.length > 0) {
           const activeCol = document.createElement('div');
           activeCol.className = 'col-md-6';
           statusRow.appendChild(activeCol);
@@ -412,8 +416,8 @@
           activeCol.appendChild(activeTable);
         }
 
-        // Inactive users table
-        if (selectedDepartments.includes('Inactive') && data.inactive_users.length > 0) {
+        // Inactive Users Table
+        if (data.inactive_users?.length > 0) {
           const inactiveCol = document.createElement('div');
           inactiveCol.className = 'col-md-6';
           statusRow.appendChild(inactiveCol);
@@ -431,7 +435,7 @@
         }
       }
 
-      // Update the print header with current filter info
+      // Print header
       const printHeader = document.createElement('div');
       printHeader.id = 'printHeader';
       printHeader.style.display = 'none';
@@ -442,6 +446,7 @@
     `;
       tablesContainer.prepend(printHeader);
     }
+
 
     function createTable(headers, rows) {
       const tableResponsive = document.createElement('div');
@@ -486,12 +491,11 @@
       return tableResponsive;
     }
 
-    // Update the print button to include the current report
+    // Update the print button
     document.getElementById('printStaffBtn').addEventListener('click', function () {
       const originalTitle = document.title;
       document.title = "Staff Count Report";
 
-      // Show the print header we added earlier
       const printHeader = document.getElementById('printHeader');
       if (printHeader) printHeader.style.display = 'block';
 
@@ -518,41 +522,6 @@
 
       document.title = originalTitle;
       if (printHeader) printHeader.style.display = 'none';
-      style.remove();
-    });
-  </script>
-
-  <!-- Download Report Button -->
-  <script>
-    document.getElementById('printStaffBtn').addEventListener('click', function () {
-      const originalTitle = document.title;
-      document.title = "Staff Count Report by Month";
-
-      let printHeader = document.createElement('h1');
-      printHeader.textContent = "Staff Count Report by Month";
-      printHeader.id = "printHeader";
-      printHeader.style.textAlign = "center";
-      printHeader.style.margin = "20px 0";
-      printHeader.style.display = "none";
-
-      document.body.prepend(printHeader);
-
-      const style = document.createElement('style');
-      style.type = 'text/css';
-      style.media = 'print';
-      style.appendChild(document.createTextNode(`
-        #printHeader { display: block !important; }
-        .topnav, .menubar-dashboard, .sidebar-dashboard, #printBtn,
-        select, .dropdown, button, #selectedTableText {
-          display: none !important;
-        }
-      `));
-      document.head.appendChild(style);
-
-      window.print();
-
-      document.title = originalTitle;
-      printHeader.remove();
       style.remove();
     });
   </script>
