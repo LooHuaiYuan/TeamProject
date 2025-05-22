@@ -14,7 +14,8 @@
 <body>
 
     <div class="blur-bg"></div>
-    
+
+    <!-- top navigation bar -->
     <div class="topnav">
         <div class="hotel-logo-dashboard-container">
             <img src="../images/hotel_logo.png" class="hotel-logo-dashboard" />
@@ -30,13 +31,16 @@
     </div>
 
 
+    <!-- menu bar button -->
     <div class="menubar-dashboard">
         <button id="toggle-menubar-dashboard" class="menubar-btn-dashboard">
             <i class="fas fa-bars"></i> Menu
         </button>
     </div>
 
+
     <div class="acsystem-wrapper">
+        <!-- side menu navigation bar -->
         <div id="sidebar-dashboard" class="sidebar-dashboard hidden">
             <div class="sidebar-dashboard-top">
                 <div class="sidebar-dashboard-category">Category</div>
@@ -59,6 +63,7 @@
             </div>
         </div>
 
+        <!--  Main title + Select Floor Level + Link to Full AC List -->
         <div class="container my-4">
             <div class="d-flex justify-content-center align-items-center mb-3 gap-3">
                 <h2 class="mb-0 text-nowrap" id="acsystem-title">AC System</h2>
@@ -74,7 +79,7 @@
                 </a>
             </div>
 
-            <!-- Map image will show here -->
+            <!-- Map image -->
             <div class="text-center">
                 <img id="floorMap" src="../images/b2_map.png" alt="Floor Map" class="img-fluid"
                     style="max-height: 500px;">
@@ -105,6 +110,7 @@
                 floorMap.src = `../images/${mapFileName}`;
             });
 
+            // Sample AC data for each room
             const roomData = [
                 {
                     name: "Room 1",
@@ -228,6 +234,7 @@
 
                 let cardBodyHTML;
 
+                // Create blinking red sensor error card if sensor is not in good condition
                 if (room.sensorState !== "good condition") {
                     cardBodyHTML = `
                         <div class="card-body text-white blinking d-flex justify-content-center align-items-center" id="ac-card-body">
@@ -235,6 +242,7 @@
                         </div>
                     `;
 
+                    // Create card based on AC data
                 } else {
                     const offCardClass = room.status === "off" ? "ac-off-card" : "";
                     const modeBadgeClass = room.status === "off" ? "badge-ac-off" : "bg-light text-dark";
@@ -247,6 +255,7 @@
                     `;
                 }
 
+                // Create pop up window when clicked
                 card.innerHTML = `
                     <div class="ac-room-card card text-center shadow-sm" onclick="openRoomDetail(${index})">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -260,6 +269,7 @@
                 acRoomsContainer.appendChild(card);
             });
 
+            // To create pop up window
             function openRoomDetail(index) {
                 const room = roomData[index];
                 const statusColor = room.status === "on" ? "bg-success" : "bg-danger";
