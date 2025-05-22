@@ -15,20 +15,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.login-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../images/login_bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(2px);
-  z-index: -1;
-}
-
 .blur-bg {
   position: fixed;
   top: 0;
@@ -43,6 +29,21 @@ body {
   z-index: -1;
 }
 
+/*Login Page*/
+.login-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/login_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px);
+  z-index: -1;
+}
+
 .hotel-logo-login {
   width: 90px;
   height: 90px;
@@ -52,7 +53,6 @@ body {
   font-size: 45px;
   font-weight: 700;
   color: black;
-  /* -webkit-text-stroke: 1px black;  */
 }
 
 .login-box {
@@ -94,15 +94,6 @@ body {
   text-decoration: underline;
 }
 
-/* .modal-content {
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
-.modal-title {
-  color: red;
-  font-weight: bold;
-} */
-
 .animate-fadein {
   animation: fadeIn 1s ease-out;
 }
@@ -135,6 +126,7 @@ body {
   }
 }
 
+/*Dashboard Page*/
 .topnav {
   background-color: #333;
   color: white;
@@ -166,7 +158,6 @@ body {
 .topnav-icons i:hover {
   color: rgb(224, 213, 179);
 }
-
 
 .hotel-logo-dashboard-container {
   display: flex;
@@ -206,8 +197,6 @@ body {
   font-size: 20px;
   cursor: pointer;
   gap: 12px;
-  /* width: 200px;
-  text-align: start; */
 }
 
 .menubar-btn-dashboard i {
