@@ -9,13 +9,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css" />
   <style media="print">
-    /* Hide dropdowns */
     select,
-    /* or more specific class, e.g. */
     .dropdown,
-    /* Hide buttons */
     button,
-    /* Hide the h2 with that id */
     #selectedTableText {
       display: none !important;
     }
@@ -286,10 +282,8 @@
     });
   </script>
 
-  <!-- Table Chosen Time -->
+  <!-- Table Generation after filter button is clicked-->
   <script>
-    // Replace your existing "Table Chosen Time" script with this:
-
     document.getElementById('staff-applyFilterBtn').addEventListener('click', function () {
       const year = document.getElementById('staffYearSelect').value;
       const month = document.getElementById('staffMonthSelect').value;
@@ -307,7 +301,6 @@
         return;
       }
 
-      // Only show month and year in the display text
       const displayText = `${month} ${year}`;
       document.getElementById('selectedTableText').textContent = displayText;
 
@@ -491,7 +484,6 @@
       return tableResponsive;
     }
 
-    // Update the print button
     document.getElementById('printStaffBtn').addEventListener('click', function () {
       const originalTitle = document.title;
       document.title = "Staff Count Report";
