@@ -42,7 +42,6 @@ function handleGetReport($pdo) {
     $startDate = "$year-$monthNumber-01";
     $endDate = date('Y-m-t', strtotime($startDate));
     
-    // Prepare response structure
     $response = [
         'all_department' => [],
         'by_department' => [],
@@ -102,7 +101,7 @@ function getAllDepartmentStats($pdo, $startDate, $endDate) {
             JOIN departments d ON s.department_id = d.department_id
             LEFT JOIN staff_visits v ON s.staff_id = v.staff_id 
                 AND v.visit_date BETWEEN :start_date AND :end_date
-            WHERE u.user_type IN ('staff', 'admin')
+            WHERE u.user_type = 'staff'
             GROUP BY u.user_id, u.full_name, s.department_id, d.department_name
             ORDER BY total_visits DESC, u.full_name ASC";
     
@@ -117,14 +116,15 @@ function getDepartmentStats($pdo, $departmentName, $startDate, $endDate) {
     $sql = "SELECT 
                 u.user_id,
                 u.full_name AS user,
-                COUNT(CASE WHEN v.visit_date BETWEEN :start_date AND :end_date THEN 1 END) AS total_visits,
+                COUNT(v.visit_id) AS total_visits,
                 s.department_id,
                 d.department_name
             FROM users u
             JOIN staff s ON u.user_id = s.user_id
             JOIN departments d ON s.department_id = d.department_id
-            LEFT JOIN staff_visits v ON s.staff_id = v.staff_id
-            WHERE u.user_type IN ('staff', 'admin') AND d.department_name = :dept_name
+            LEFT JOIN staff_visits v ON s.staff_id = v.staff_id 
+                AND v.visit_date BETWEEN :start_date AND :end_date
+            WHERE u.user_type = 'staff' AND d.department_name = :dept_name
             GROUP BY u.user_id, u.full_name, s.department_id, d.department_name
             ORDER BY total_visits DESC, u.full_name ASC";
     
@@ -146,12 +146,13 @@ function getActiveInactiveUsers($pdo, $startDate, $endDate, $departmentName = nu
     $sql = "SELECT 
                 u.user_id,
                 u.full_name AS user,
-                COUNT(CASE WHEN v.visit_date BETWEEN :start_date AND :end_date THEN 1 END) AS total_visits,
+                COUNT(v.visit_id) AS total_visits,
                 d.department_name
             FROM users u
             JOIN staff s ON u.user_id = s.user_id
             JOIN departments d ON s.department_id = d.department_id
-            LEFT JOIN staff_visits v ON s.staff_id = v.staff_id
+            LEFT JOIN staff_visits v ON s.staff_id = v.staff_id 
+                AND v.visit_date BETWEEN :start_date AND :end_date
             WHERE u.user_type = 'staff'";
     
     if ($departmentName) {
