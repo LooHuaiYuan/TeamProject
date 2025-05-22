@@ -301,7 +301,8 @@
         return;
       }
 
-      const displayText = `${month} ${year}`;
+      // Only show month and year in the display text
+      const displayText = `Selected: ${month} ${year}`;
       document.getElementById('selectedTableText').textContent = displayText;
 
       // Show loading state
@@ -440,7 +441,6 @@
       tablesContainer.prepend(printHeader);
     }
 
-
     function createTable(headers, rows) {
       const tableResponsive = document.createElement('div');
       tableResponsive.className = 'staff-table-responsive';
@@ -484,6 +484,7 @@
       return tableResponsive;
     }
 
+    // Update the print button
     document.getElementById('printStaffBtn').addEventListener('click', function () {
       const originalTitle = document.title;
       document.title = "Staff Count Report";
