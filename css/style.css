@@ -4,7 +4,9 @@
   --color-3: #dcc07f;
   --color-4: #caa346;
   --color-5: #b8850f;
-  --color-6: #52ec55;
+  --color-6: #3dee19;
+  --color-7: #f12323;
+  --color-8: #dfdfdf;
 }
 
 
@@ -428,21 +430,20 @@ canvas {
 }
 
 .heater-on {
-  background-color: #52ec55;
+  background-color: var(--color-6);
 }
 
 .heater-off {
-  background-color: #d3d3d3;
+  background-color: var(--color-8);
 }
 
 .heater-error {
-  background-color: #f60c0c; 
-  /* background-color: #DC3545; */
+  background-color: var(--color-7);
   color: white;
 }
 
-.graph-container {
-  background-color: #f1f1f1;
+.graph-container-heater {
+  background-color: #ffffff;
   border-radius: 15px;
   padding: 1rem;
   margin-top: 2rem;
@@ -605,21 +606,20 @@ canvas {
 }
 
 .chiller-on {
-  background-color: #52ec55;
-  /* background-color: rgb(64, 175, 254); */
+  background-color: var(--color-6);
 }
 
 .chiller-off {
-  background-color: #d3d3d3;
+  background-color: var(--color-8);
 }
 
 .chiller-error {
-  background-color: #f60c0c;
+  background-color: var(--color-7);
   color: white;
 }
 
-.graph-container {
-  background-color: #f1f1f1;
+.graph-container-chiller {
+  background-color: #ffffff;
   border-radius: 15px;
   padding: 1rem;
   margin-top: 2rem;

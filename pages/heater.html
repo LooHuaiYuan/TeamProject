@@ -66,15 +66,12 @@
             </div>
 
             <div class="row text-center">
-                <!-- Generate heaters 1 to 10 -->
-                <!-- Example states: heater-on, heater-off, heater-error -->
+                <!-- Heater states: heater-on, heater-off, heater-error -->
                 <script>
                     const heaterStates = [
                         'on', 'on', 'off', 'on', 'off', 'error', 'on', 'off', 'on', 'on'
                     ];
                 </script>
-
-                <!-- We'll manually write out the 12 heaters here for simplicity -->
 
                 <!-- Heaters 1–10 -->
                 <div class="col-6 col-md-3">
@@ -143,7 +140,7 @@
                 </div>
             </div>
 
-            <div class="graph-container text-center">
+            <div class="graph-container-heater text-center">
                 <h4 id="graph-title">Graph of Heater 1</h4>
                 <div class="d-flex justify-content-center gap-2 my-3 flex-wrap">
                     <select class="form-select w-auto" id="year-select">
@@ -200,7 +197,7 @@
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         datasets: [{
                             label: `Heater ${id} Temperature`,
                             data: dataSamples[id] || [],
@@ -214,7 +211,17 @@
                         responsive: true,
                         scales: {
                             y: {
-                                beginAtZero: true
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Temperature (°C)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Month'
+                                }
                             }
                         }
                     }
