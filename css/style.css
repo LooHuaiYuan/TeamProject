@@ -195,7 +195,8 @@ body {
   font-size: 20px;
   cursor: pointer;
   gap: 12px;
-
+  /* width: 200px;
+  text-align: start; */
 }
 
 .menubar-btn-dashboard i {
