@@ -92,6 +92,15 @@ body {
   text-decoration: underline;
 }
 
+/* .modal-content {
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.modal-title {
+  color: red;
+  font-weight: bold;
+} */
+
 .animate-fadein {
   animation: fadeIn 1s ease-out;
 }
