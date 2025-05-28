@@ -61,7 +61,7 @@
       <div class="plate-container">
         <h2 class="plate-section-title">Plate Queuing</h2>
         <div class="plate-grid" id="plateGrid">
-          
+
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@
     ];
 
     const container = document.getElementById("plateGrid");
-    container.innerHTML = ''; 
+    container.innerHTML = '';
 
     // Filter out zero plates and sort descending by hours
     const sortedData = plateData
@@ -113,7 +113,16 @@
       `;
       container.appendChild(plateDiv);
     });
-</script>
+  </script>
+
+  <script>
+    const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+    const sidebarDashboard = document.getElementById('sidebar-dashboard');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebarDashboard.classList.toggle('hidden');
+    });
+  </script>
 
 
 </body>
