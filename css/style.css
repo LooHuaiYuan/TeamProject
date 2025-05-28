@@ -451,6 +451,29 @@ canvas {
 }
 
 /*Plate-pickup page*/
+
+/*Loading button*/
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.big-spinner {
+  width: 6rem;
+  height: 6rem;
+  color: var(--color-4); /* Bootstrap primary color, change as needed */
+  border-width: 0.5rem;
+
+}
+
+.loading-text {
+  font-size: 1.25rem;
+  color: black;
+}
+
 /* Main Container */
 .plate-container {
   padding: 20px;
