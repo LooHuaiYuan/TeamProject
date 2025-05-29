@@ -101,9 +101,10 @@
 
       <!-- Date Display -->
       <div class="date-dashboard">
-        <h2>Week 3 May 2025</h2>
-        <h5>(20/5 ~ 27/5)</h5>
+        <h2 id="date-title"></h2>
+        <h5 id="date-range"></h5>
       </div>
+
 
       <!-- Dashboard Charts Section -->
       <div class="charts-dashboard">
@@ -136,10 +137,145 @@
   <!-- Chart Configuration for Each Canvas -->
   <script>
     const chartRefs = {
-      ac_system: new Chart(document.getElementById('lineChart1'), { type: 'line', data: { labels: [], datasets: [{ label: 'AC System', data: [] }] } }),
-      water_heater: new Chart(document.getElementById('lineChart2'), { type: 'line', data: { labels: [], datasets: [{ label: 'Water Heater', data: [] }] } }),
-      chiller_freezer: new Chart(document.getElementById('lineChart3'), { type: 'line', data: { labels: [], datasets: [{ label: 'Freezer Monitoring', data: [] }] } }),
-      plate_pickup: new Chart(document.getElementById('lineChart4'), { type: 'line', data: { labels: [], datasets: [{ label: 'Plate Pickup', data: [] }] } })
+      ac_system: new Chart(document.getElementById('lineChart1'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'AC System',
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            borderColor: 'rgba(75,192,192,1)',
+            data: []
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Temperature (°C)',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      }),
+
+      water_heater: new Chart(document.getElementById('lineChart2'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Water Heater',
+            backgroundColor: 'rgba(153,102,255,0.2)',
+            borderColor: 'rgba(153,102,255,1)',
+            data: []
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Temperature (°C)',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      }),
+
+      chiller_freezer: new Chart(document.getElementById('lineChart3'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Chiller & Freezer',
+            backgroundColor: 'rgba(153,102,255,0.2)',
+            borderColor: 'rgb(75, 156, 17, 1)',
+            data: []
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Temperature (°C)',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      }),
+
+      plate_pickup: new Chart(document.getElementById('lineChart4'), {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Plate Pickup',
+            backgroundColor: 'rgba(153,102,255,0.2)',
+            borderColor: 'rgb(255, 97, 250, 1)',
+            data: []
+          }]
+        },
+        options: {
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Pickup Time (hours)',
+                font: {
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      })
     };
 
     function fetchAndUpdateChart(category, timeframe) {
@@ -149,8 +285,6 @@
           const chart = chartRefs[category];
           console.log(`${category} - ${timeframe}:`, json);
 
-
-          // Use the same X-axis labels for consistency
           const labels = {
             day: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             week: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
@@ -167,11 +301,58 @@
         });
     }
 
+    function updateDateDisplay(timeframe) {
+      const now = new Date();
+      const titleEl = document.getElementById('date-title');
+      const rangeEl = document.getElementById('date-range');
+      const year = now.getFullYear();
+      const month = now.getMonth(); 
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'];
+
+      if (timeframe === 'day') {
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const weeks = [];
+        let start = 1;
+
+        while (start <= daysInMonth) {
+          const end = Math.min(start + 6, daysInMonth);
+          weeks.push({ start, end });
+          start = end + 1;
+        }
+
+        const today = now.getDate();
+
+        let weekNumber = weeks.findIndex(week => today >= week.start && today <= week.end) + 1;
+        const currentWeek = weeks[weekNumber - 1];
+
+        titleEl.textContent = `Week ${weekNumber} ${monthNames[month]} ${year}`;
+        rangeEl.textContent = `(${currentWeek.start}/${month + 1} ~ ${currentWeek.end}/${month + 1})`;
+        rangeEl.style.display = 'block';
+
+      } else if (timeframe === 'week') {
+        titleEl.textContent = `${monthNames[month]} ${year}`;
+        rangeEl.style.display = 'none';
+
+      } else if (timeframe === 'month') {
+        titleEl.textContent = `${year}`;
+        rangeEl.style.display = 'none';
+      }
+    }
+
+
     document.getElementById('timeframeSelect').addEventListener('change', function () {
       const timeframe = this.value;
+      updateDateDisplay(timeframe);
       ['ac_system', 'water_heater', 'chiller_freezer', 'plate_pickup'].forEach(cat => {
         fetchAndUpdateChart(cat, timeframe);
       });
+    });
+
+    window.addEventListener('load', () => {
+      const select = document.getElementById('timeframeSelect');
+      select.value = 'day'; 
+      select.dispatchEvent(new Event('change'));
     });
   </script>
 

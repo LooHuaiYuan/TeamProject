@@ -17,12 +17,10 @@ if (!in_array($category, $validCategories) || !in_array($timeframe, $validTimefr
 // Determine the correct value column
 $valueColumn = ($category === 'plate_pickup') ? 'time' : 'temperature';
 
-// Initialize arrays with zeros
 $dayData = array_fill(0, 7, 0);
 $weekData = array_fill(0, 4, 0);
 $monthData = array_fill(0, 5, 0);
 
-// SQL query
 $sql = "SELECT `$timeframe`, `$valueColumn` FROM `$category` ORDER BY `$timeframe` ASC";
 $result = $conn->query($sql);
 
