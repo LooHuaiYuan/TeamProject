@@ -177,72 +177,9 @@
       </div>
 
       <div id="staffTablesContainer" class="d-none mt-4">
-        <!-- Row for two tables side-by-side -->
-        <div class="row">
-          <!-- Active Users Table -->
-          <div class="col-md-6">
-            <h2 class="fs-5">Active Users</h2>
-            <div class="staff-table-responsive">
-              <table class="table table-bordered align-middle">
-                <thead class="table-light">
-                  <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">User</th>
-                    <th scope="col">Total Visits</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Johan</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Syahril</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Syakir</td>
-                    <td>1</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Inactive Users Table -->
-          <div class="col-md-6">
-            <h2 class="fs-5">Inactive Users</h2>
-            <div class="staff-table-responsive">
-              <table class="table table-bordered align-middle">
-                <thead class="table-light">
-                  <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">User</th>
-                    <th scope="col">Total Visits</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Alia</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Daniel</td>
-                    <td>0</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <!-- Tables will be dynamically inserted here -->
       </div>
     </div>
-
   </div>
 
   <!-- Sidebar -->
@@ -282,7 +219,7 @@
     });
   </script>
 
-  <!-- Table Generation after filter button is clicked-->
+  <!-- Table Chosen Time -->
   <script>
     document.getElementById('staff-applyFilterBtn').addEventListener('click', function () {
       const year = document.getElementById('staffYearSelect').value;
@@ -301,17 +238,18 @@
         return;
       }
 
-      // Only show month and year in the display text
+      // Properly encode each department name
+      const encodedDepartments = selectedDepartments.map(dept => encodeURIComponent(dept));
+      
       const displayText = `Selected: ${month} ${year}`;
       document.getElementById('selectedTableText').textContent = displayText;
 
-      // Show loading state
       const tablesContainer = document.getElementById('staffTablesContainer');
       tablesContainer.classList.remove('d-none');
       tablesContainer.innerHTML = '<div class="text-center py-5"><i class="fas fa-spinner fa-spin fa-3x"></i><p>Loading report data...</p></div>';
 
-      // Fetch data from API
-      fetch(`../php/api.php?action=get_report&year=${year}&month=${month}&departments=${selectedDepartments.join(',')}`)
+      // Use encoded department names in the URL
+      fetch(`../php/staff_report.php?action=get_report&year=${year}&month=${month}&departments=${encodedDepartments.join(',')}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -319,6 +257,7 @@
           return response.json();
         })
         .then(data => {
+          console.log("API Response:", data); // Debugging
           if (data.error) {
             throw new Error(data.error);
           }
@@ -362,20 +301,33 @@
         tablesContainer.appendChild(deptRow);
 
         regularDepartments.forEach(dept => {
+          // Map to display names
+          const displayNames = {
+            'Admin': 'Admin',
+            'Maintenance Department': 'Maintenance',
+            'Fuze Department': 'Fuze',
+            'Sales Department': 'Sales',
+            'F&B Department': 'F&B',
+            'House Keeping Department': 'House Keeping',
+            'View Only': 'View Only'
+          };
+          
+          const displayName = displayNames[dept] || dept;
+          const deptData = data.by_department && data.by_department[dept] ? data.by_department[dept] : [];
+
           const deptCol = document.createElement('div');
           deptCol.className = 'col-md-6 mb-4';
           deptRow.appendChild(deptCol);
 
           const deptTitle = document.createElement('h2');
           deptTitle.className = 'fs-5 mb-3';
-          deptTitle.textContent = dept;
+          deptTitle.textContent = displayName;
           deptCol.appendChild(deptTitle);
 
-          const deptData = data.by_department[dept] || [];
           const headers = ['No.', 'User', 'Total Visits'];
           const rows = deptData.length > 0
             ? deptData.map(item => [item.no, item.user, item.total_visits || 0])
-            : [['-', 'No staff in this department', '-']];
+            : [['-', 'No data available', '-']];
 
           const deptTable = createTable(headers, rows);
           deptCol.appendChild(deptTable);
@@ -404,8 +356,8 @@
           activeCol.appendChild(activeTitle);
 
           const activeTable = createTable(
-            ['No.', 'User'],
-            data.active_users.map(item => [item.no, item.user])
+            ['No.', 'User', 'Total Visits'],
+            data.active_users.map(item => [item.no, item.user, item.total_visits || 'N/A'])
           );
           activeCol.appendChild(activeTable);
         }
@@ -422,8 +374,8 @@
           inactiveCol.appendChild(inactiveTitle);
 
           const inactiveTable = createTable(
-            ['No.', 'User'],
-            data.inactive_users.map(item => [item.no, item.user])
+            ['No.', 'User', 'Total Visits'],
+            data.inactive_users.map(item => [item.no, item.user, item.total_visits || 0])
           );
           inactiveCol.appendChild(inactiveTable);
         }
@@ -437,7 +389,7 @@
         <h1 class="text-center mb-3">Staff Count Report</h1>
         <h2 class="text-center mb-4">${month} ${year}</h2>
         <p class="text-center">Departments: ${selectedDepartments.join(', ')}</p>
-    `;
+      `;
       tablesContainer.prepend(printHeader);
     }
 
@@ -508,7 +460,7 @@
         .table {
             page-break-inside: avoid;
         }
-    `));
+      `));
       document.head.appendChild(style);
 
       window.print();
@@ -518,7 +470,5 @@
       style.remove();
     });
   </script>
-
 </body>
-
 </html>
