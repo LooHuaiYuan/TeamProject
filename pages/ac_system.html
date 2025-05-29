@@ -12,10 +12,9 @@
 </head>
 
 <body>
-
     <div class="blur-bg"></div>
 
-    <!-- top navigation bar -->
+    <!-- Top Navigation -->
     <div class="topnav">
         <div class="hotel-logo-dashboard-container">
             <img src="../images/hotel_logo.png" class="hotel-logo-dashboard" />
@@ -23,24 +22,20 @@
                 <h2>The Everly IoT</h2>
             </a>
         </div>
-
         <div class="topnav-icons">
             <i class="fas fa-user profile-icon"></i>
             <i class="fas fa-comments chat-icon"></i>
         </div>
     </div>
 
-
-    <!-- menu bar button -->
+    <!-- Menu Bar -->
     <div class="menubar-dashboard">
         <button id="toggle-menubar-dashboard" class="menubar-btn-dashboard">
             <i class="fas fa-bars"></i> Menu
         </button>
     </div>
 
-
     <div class="acsystem-wrapper">
-        <!-- side menu navigation bar -->
         <div id="sidebar-dashboard" class="sidebar-dashboard hidden">
             <div class="sidebar-dashboard-top">
                 <div class="sidebar-dashboard-category">Category</div>
@@ -63,7 +58,6 @@
             </div>
         </div>
 
-        <!--  Main title + Select Floor Level + Link to Full AC List -->
         <div class="container my-4">
             <div class="d-flex justify-content-center align-items-center mb-3 gap-3">
                 <h2 class="mb-0 text-nowrap" id="acsystem-title">AC System</h2>
@@ -79,257 +73,165 @@
                 </a>
             </div>
 
-            <!-- Map image -->
             <div class="text-center">
                 <img id="floorMap" src="../images/b2_map.png" alt="Floor Map" class="img-fluid"
                     style="max-height: 500px;">
             </div>
 
-            <!-- AC room cards -->
-            <div class="row" id="acRooms">
-                <!-- Dynamic content will be added here -->
-            </div>
+            <div class="row" id="acRooms"></div>
         </div>
 
         <script>
-            // Change map based on floor
             const floorSelector = document.getElementById('floorSelector');
             const floorMap = document.getElementById('floorMap');
+            const acRoomsContainer = document.getElementById("acRooms");
+
+            // Store current AC rooms data globally
+            let currentRoomsData = [];
 
             const floorMapFiles = {
                 b2: 'b2_map.png',
                 ground: 'g_map.png',
                 m: 'm_map.png',
                 first: '1st_map.png',
-                15: '1st_map.png'   // missing 15th floor map in original system
+                15: '1st_map.png'
             };
 
-            floorSelector.addEventListener('change', () => {
-                const selectedFloor = floorSelector.value;
-                const mapFileName = floorMapFiles[selectedFloor];
-                floorMap.src = `../images/${mapFileName}`;
-            });
+            function fetchACData(floor) {
+                fetch(`../php/get_ac_data.php?floor=${floor}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        currentRoomsData = data;  // store latest data globally
+                        acRoomsContainer.innerHTML = "";
+                        data.forEach(room => {
+                            const card = document.createElement("div");
+                            card.className = "col-lg-4 col-md-6 mb-4 fs-5";
 
-            // Sample AC data for each room
-            const roomData = [
-                {
-                    name: "Room 1",
-                    status: "on",
-                    temperature: 20.0,
-                    humidity: 73.2,
-                    mode: "AC",
-                    feelLikeTemp: 20.3,
-                    dew: 15.87,
-                    occupants: 5,
-                    statusText: "good",
-                    sensorState: "good condition"
-                },
-                {
-                    name: "Room 2",
-                    status: "on",
-                    temperature: 19.0,
-                    humidity: 87.8,
-                    mode: "AC",
-                    feelLikeTemp: 19.8,
-                    dew: 16.1,
-                    occupants: 3,
-                    statusText: "good",
-                    sensorState: "good condition"
-                },
-                {
-                    name: "Room 3",
-                    status: "on",
-                    temperature: null,
-                    humidity: null,
-                    mode: "AC",
-                    feelLikeTemp: null,
-                    dew: null,
-                    occupants: 0,
-                    statusText: "error",
-                    sensorState: "Sensor 1 error"
-                },
-                {
-                    name: "Room 4",
-                    status: "on",
-                    temperature: 21.0,
-                    humidity: 69.9,
-                    mode: "AC",
-                    feelLikeTemp: 21.1,
-                    dew: 14.7,
-                    occupants: 2,
-                    statusText: "good",
-                    sensorState: "good condition"
-                },
-                {
-                    name: "Room 5",
-                    status: "off",
-                    temperature: 22.0,
-                    humidity: 70.5,
-                    mode: "AC",
-                    feelLikeTemp: 22.5,
-                    dew: 14.9,
-                    occupants: 4,
-                    statusText: "good",
-                    sensorState: "good condition"
-                },
-                {
-                    name: "Room 6",
-                    status: "off",
-                    temperature: null,
-                    humidity: null,
-                    mode: "AC",
-                    feelLikeTemp: null,
-                    dew: null,
-                    occupants: 0,
-                    statusText: "error",
-                    sensorState: "Sensor 2 error"
-                },
-                {
-                    name: "Room 7",
-                    status: "on",
-                    temperature: 21.0,
-                    humidity: 65.3,
-                    mode: "AC",
-                    feelLikeTemp: 20.5,
-                    dew: 14.3,
-                    occupants: 6,
-                    statusText: "good",
-                    sensorState: "good condition"
-                },
-                {
-                    name: "Room 8",
-                    status: "on",
-                    temperature: 20.0,
-                    humidity: 72.1,
-                    mode: "AC",
-                    feelLikeTemp: 21.1,
-                    dew: 15.0,
-                    occupants: 5,
-                    statusText: "good",
-                    sensorState: "good condition"
-                },
-                {
-                    name: "Room 9",
-                    status: "off",
-                    temperature: 19.0,
-                    humidity: 75.4,
-                    mode: "AC",
-                    feelLikeTemp: 19.0,
-                    dew: 13.9,
-                    occupants: 2,
-                    statusText: "good",
-                    sensorState: "good condition"
-                }
-            ];
+                            const statusColor = room.status === "on" ? "bg-success" : "bg-danger";
+                            const tempDisplay = room.temperature != null ? `${room.temperature.toFixed(1)}°C` : "- °C";
+                            const humidityDisplay = room.humidity != null ? `${room.humidity} %` : "- %";
 
-            const acRoomsContainer = document.getElementById("acRooms");
-
-            roomData.forEach((room, index) => {
-                const card = document.createElement("div");
-                card.className = "col-lg-4 col-md-6 mb-4 fs-5";
-
-                const statusColor = room.status === "on" ? "bg-success" : "bg-danger";
-                const tempDisplay = room.temperature != null ? `${room.temperature}°C` : "- °C";
-                const humidityDisplay = room.humidity != null ? `${room.humidity} %` : "- %";
-
-                let cardBodyHTML;
-
-                // Create blinking red sensor error card if sensor is not in good condition
-                if (room.sensorState !== "good condition") {
-                    cardBodyHTML = `
-                        <div class="card-body text-white blinking d-flex justify-content-center align-items-center" id="ac-card-body">
-                            <h2 class="fw-bold mb-0">SENSOR ERROR</h2>
-                        </div>
-                    `;
-
-                    // Create card based on AC data
-                } else {
-                    const offCardClass = room.status === "off" ? "ac-off-card" : "";
-                    const modeBadgeClass = room.status === "off" ? "badge-ac-off" : "bg-light text-dark";
-                    cardBodyHTML = `
-                    <div class="card-body ${offCardClass}">
-                        <h3 class="display-6">${tempDisplay}</h3>
-                        <p class="mb-1 fs-5">Mode: <span class="badge ${modeBadgeClass}">${room.mode}</span></p>
+                            let cardBodyHTML = room.sensor_state !== "Good Condition"
+                                ? `<div class="card-body text-white blinking d-flex justify-content-center align-items-center" id="ac-card-body">
+                        <h2 class="fw-bold mb-0">SENSOR ERROR</h2>
+                    </div>`
+                                : `<div class="card-body ${room.status === "off" ? "ac-off-card" : ""}">
+                        <h3 class= "display-6" id="ac-card-temp-${room.id}">${tempDisplay}</h3>
+                        <p class="mb-1 fs-5">Mode: <span class="badge ${room.status === "off" ? "badge-ac-off" : "bg-light text-dark"}">${room.mode}</span></p>
                         <p class="fs-5">Humidity: ${humidityDisplay}</p>
-                    </div>
-                    `;
-                }
+                    </div>`;
 
-                // Create pop up window when clicked
-                card.innerHTML = `
-                    <div class="ac-room-card card text-center shadow-sm" onclick="openRoomDetail(${index})">
+                            card.innerHTML = `
+                    <div class="ac-room-card card text-center shadow-sm" onclick='openRoomDetail("${room.id}")'>
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <strong>${room.name}</strong>
+                            <strong>${room.room_name}</strong>
                             <span class="badge ${statusColor} text-white px-3 py-1">${room.status.toUpperCase()}</span>
                         </div>
                         ${cardBodyHTML}
-                    </div>
-                `;
+                    </div>`;
 
-                acRoomsContainer.appendChild(card);
-            });
+                            acRoomsContainer.appendChild(card);
+                        });
+                    });
+            }
 
-            // To create pop up window
-            function openRoomDetail(index) {
-                const room = roomData[index];
+            function openRoomDetail(roomId) {
+                const room = currentRoomsData.find(r => r.id === roomId);
+                if (!room) {
+                    alert("Room data not found");
+                    return;
+                }
+
                 const statusColor = room.status === "on" ? "bg-success" : "bg-danger";
-                const sensorColor = room.sensorState === "good condition" ? "bg-success" : "bg-danger";
-                const tempSet = room.temperature != null ? `${room.temperature.toFixed(1)}°C` : "-";
-                const feelLike = room.feelLikeTemp != null ? `${room.feelLikeTemp.toFixed(1)}°C` : "-";
-                const dew = room.dew != null ? room.dew.toFixed(2) : "-";
-                const humidity = room.humidity != null ? `${room.humidity.toFixed(1)}%` : "-";
-                const occupants = `${room.occupants} people`;
-
+                const sensorColor = room.sensor_state === "Good Condition" ? "bg-success" : "bg-danger";
                 const popup = document.createElement("div");
                 popup.className = "ac-popup-backdrop d-flex justify-content-center align-items-center fs-5";
+
                 popup.innerHTML = `
-                <div class="ac-popup-card card p-4 position-relative">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <strong>${room.name}</strong>
-                    <span class="badge ${statusColor} text-white px-3 py-1">${room.status.toUpperCase()}</span>
-                </div>
-                <div class="card-body text-center" id="ac-details-popup">
-                    <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-5 mb-3">
+        <div class="ac-popup-card card p-4 position-relative">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <strong>${room.room_name || '-'}</strong>
+                <span class="badge ${statusColor} text-white px-3 py-1">${(room.status || '-').toUpperCase()}</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-5 mb-3">
                     <div class="ac-detail-temperature-title">
                         <label class="fw-bold">Set Temperature</label>
                         <div class="d-flex align-items-center justify-content-center">
-                        <button class="btn btn-sm btn-outline-secondary">-</button>
-                        <span class="mx-2 fs-1">${tempSet}</span>
-                        <button class="btn btn-sm btn-outline-secondary">+</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="changeTemp('${room.id}', -1)">-</button>
+                            <span class="mx-2 fs-1" id="temp-value-${room.id}">
+                                ${room.temperature != null ? room.temperature.toFixed(1) + '°C' : '-'}
+                            </span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="changeTemp('${room.id}', 1)">+</button>
                         </div>
                     </div>
                     <div class="ac-detail-temperature-title">
                         <label class="fw-bold">Feel Like</label>
-                        <div class="fs-1">${feelLike}</div>
+                        <div class="fs-1">${room.feel_like_temp != null ? room.feel_like_temp.toFixed(1) + '°C' : '-'}</div>
                     </div>
-                    </div>
-                    <p>Mode: <span class="fs-5 badge bg-light text-dark">${room.mode}</span></p>
-                    <p>Status: ${room.statusText}</p>
-                    <p>Dew: ${dew}</p>
-                    <p>Humidity: ${humidity}</p>
-                    <p>Occupants: ${occupants}</p>
-                    <p>Sensor State: <span class="fs-6 badge ${sensorColor}">${room.sensorState}</span></p>
                 </div>
-                </div>
-                `;
+                <p>Mode: <span class="fs-5 badge bg-light text-dark">${room.mode || '-'}</span></p>
+                <p>Status: ${room.status_text || '-'}</p>
+                <p>Dew: ${room.dew != null ? room.dew.toFixed(2) : '-'}</p>
+                <p>Humidity: ${room.humidity != null ? room.humidity.toFixed(1) + '%' : '-'}</p>
+                <p>Occupants: ${room.occupants != null ? room.occupants + ' people' : '-'}</p>
+                <p>Sensor State: <span class="fs-6 badge ${sensorColor}">${room.sensor_state || '-'}</span></p>
+            </div>
+        </div>`;
 
-                popup.addEventListener("click", (e) => {
-                    if (e.target === popup) {
-                        popup.remove();
-                    }
+                popup.addEventListener("click", e => {
+                    if (e.target === popup) popup.remove();
                 });
 
                 document.body.appendChild(popup);
             }
-        </script>
 
-        <script>
-            const toggleBtn = document.getElementById('toggle-menubar-dashboard');
-            const sidebarDashboard = document.getElementById('sidebar-dashboard');
+            function changeTemp(roomId, delta) {
+                const tempSpan = document.getElementById(`temp-value-${roomId}`);
+                let currentTemp = parseFloat(tempSpan.textContent);
+                const newTemp = currentTemp + delta;
 
-            toggleBtn.addEventListener('click', () => {
-                sidebarDashboard.classList.toggle('hidden');
+                fetch('../php/update_ac_temperature.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ room_id: roomId, temperature: newTemp })
+                })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            // Update popup temperature display
+                            tempSpan.textContent = `${newTemp.toFixed(1)}°C`;
+
+                            // Update card temperature display if visible
+                            const cardTempSpan = document.querySelector(`#ac-card-temp-${roomId}`);
+                            if (cardTempSpan) {
+                                cardTempSpan.textContent = `${newTemp.toFixed(1)}°C`;
+                            }
+
+                            // Update the local data store so popup reopens with updated value
+                            const roomIndex = currentRoomsData.findIndex(r => r.id === roomId);
+                            if (roomIndex !== -1) {
+                                currentRoomsData[roomIndex].temperature = newTemp;
+                            }
+                        } else {
+                            alert("Failed to update temperature: " + result.error);
+                        }
+                    })
+                    .catch(error => {
+                        alert("Error: " + error);
+                        console.error('Error:', error);
+                    });
+            }
+
+            floorSelector.addEventListener('change', () => {
+                const selectedFloor = floorSelector.value;
+                floorMap.src = `../images/${floorMapFiles[selectedFloor]}`;
+                fetchACData(selectedFloor);
             });
+
+            // Initial load
+            fetchACData(floorSelector.value);
+
         </script>
 </body>
 
