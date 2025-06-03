@@ -3,7 +3,7 @@
 $host = "localhost";       // Host name (XAMPP default is 'localhost')
 $username = "root";        // Default username for XAMPP
 $password = "";            // Default password is empty
-$database = "tep_dashboard";  // Replace with your database name
+$database = "team";  // Replace with your database name
 
 // Create connection
 $conn = mysqli_connect($host, $username, $password, $database);
