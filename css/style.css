@@ -481,7 +481,7 @@ canvas {
 
 .plate-section-title {
   font-size: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   text-align: center;
   font-weight: bold;
 }
@@ -498,10 +498,9 @@ canvas {
 }
 
 .plate-button {
-  flex: 0 1 300px;
-  /* smaller base width */
-  max-width: 300px;
-  min-width: 220px;
+  flex: 0 1 30%; /* roughly 3 items per row with spacing */
+  max-width: 30%;
+  min-width: 280px; /* ensure it’s still responsive */
   background-color: var(--color-1);
   border: 2px solid var(--color-5);
   border-radius: 10px;
