@@ -17,12 +17,12 @@
         $stmt = $conn->prepare($sql);
         $stmt -> bind_param("ssssss", $id, $room_name, $floor, $status, $system, $created_at);
         
-        // if ($stmt->execute()) {
-        //     echo json_encode(["success" => true]);
-        // } else {
-        //     http_response_code(500);
-        //     echo json_encode(["success" => false, "error" => "Insert failed"]);
-        // }
+        if ($stmt->execute()) {
+            echo json_encode(["success" => true]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["success" => false, "error" => "Insert failed"]);
+        }
         
         $stmt->close();
 
