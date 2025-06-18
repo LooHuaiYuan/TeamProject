@@ -3,7 +3,7 @@ header('Content-Type: application/json');
 include 'database.php'; // Only need to include once
 
 
-$sql = "SELECT * FROM plate_pickup";
+$sql = "SELECT * FROM plate_data";
 $result = $conn->query($sql);
 
 $plateData = [];
