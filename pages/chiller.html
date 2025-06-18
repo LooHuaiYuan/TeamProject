@@ -6,7 +6,7 @@
     <title>Chiller & Freezers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css" />
 
@@ -84,17 +84,17 @@
                     <h5 id="floor-h5">RCFP Kitchen:</h5>
                     <div class="row justify-content-center">
                         <div class="col-5 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on " onclick="updateGraph('Dairy Chiller')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Dairy Chiller')">
                                 <i class="bi bi-snow chiller-icon"></i>Dairy Chiller<br><span>4.1°C</span>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('Holding Chiller')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Holding Chiller')">
                                 <i class="bi bi-snow chiller-icon"></i>Holding Chiller<br><span>5.2°C</span>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-off" onclick="updateGraph('Holding Freezer')">
+                            <div class="chiller-card chiller-off" onclick="updateGraph('static', 'Holding Freezer')">
                                 <i class="bi bi-snow2 chiller-icon"></i>Holding Freezer<br><span>-18.5°C</span>
                             </div>
                         </div>
@@ -106,18 +106,19 @@
                     <h5 id="floor-h5" class="mt-4">RCFP Butcher:</h5>
                     <div class="row justify-content-center">
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('Meat Chiller')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Meat Chiller')">
                                 <i class="bi bi-snow chiller-icon"></i>Meat Chiller<br><span>3.8°C</span>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-error" onclick="updateGraph('Vegetable Chiller')">
+                            <div class="chiller-card chiller-error"
+                                onclick="updateGraph('static', 'Vegetable Chiller')">
                                 <i class="bi bi-exclamation-triangle chiller-icon"></i>Vegetable
                                 Chiller<br><span>4.6°C</span>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('General Freezer')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'General Freezer')">
                                 <i class="bi bi-snow2 chiller-icon"></i>General Freezer<br><span>-20.0°C</span>
                             </div>
                         </div>
@@ -129,12 +130,12 @@
                     <h5 id="floor-h5">Fuze Kitchen:</h5>
                     <div class="row justify-content-center">
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('Fuze Chiller')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Fuze Chiller')">
                                 <i class="bi bi-snow chiller-icon"></i>Fuze Chiller<br><span>4.0°C</span>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('Fuze Freezer')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Fuze Freezer')">
                                 <i class="bi bi-snow2 chiller-icon"></i>Fuze Freezer<br><span>-19.3°C</span>
                             </div>
                         </div>
@@ -146,12 +147,12 @@
                     <h5 id="floor-h5">Banquet:</h5>
                     <div class="row justify-content-center">
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('Banquet Chiller')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Banquet Chiller')">
                                 <i class="bi bi-snow chiller-icon"></i>Banquet Chiller<br><span>5.0°C</span>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 gap-4">
-                            <div class="chiller-card chiller-on" onclick="updateGraph('Banquet Freezer')">
+                            <div class="chiller-card chiller-on" onclick="updateGraph('static', 'Banquet Freezer')">
                                 <i class="bi bi-snow2 chiller-icon"></i>Banquet Freezer<br><span>-21.1°C</span>
                             </div>
                         </div>
@@ -161,31 +162,30 @@
 
             <!-- Graph Section -->
             <div class="graph-container-chiller text-center">
-                <h4 id="graph-title">Graph of Dairy Chiller</h4>
+                <h4 id="graph-title">Graph of Dairy Chiller - June 9, 2025</h4>
                 <div class="d-flex justify-content-center gap-2 my-3 flex-wrap">
                     <select class="form-select w-auto" id="year-select">
-                        <option>Year</option>
-                        <option>2025</option>
-                        <option>2024</option>
+                        <option value="2025" selected>2025</option>
+                        <option value="2024">2024</option>
                     </select>
                     <select class="form-select w-auto" id="month-select">
-                        <option>Month</option>
-                        <option>Jan</option>
-                        <option>Feb</option>
-                        <option>Mar</option>
-                        <option>Apr</option>
-                        <option>May</option>
-                        <option>Jun</option>
-                        <option>Jul</option>
-                        <option>Aug</option>
-                        <option>Sep</option>
-                        <option>Oct</option>
-                        <option>Nov</option>
-                        <option>Dec</option>
+                        <option value="0">Jan</option>
+                        <option value="1">Feb</option>
+                        <option value="2">Mar</option>
+                        <option value="3">Apr</option>
+                        <option value="4">May</option>
+                        <option value="5" selected>Jun</option>
+                        <option value="6">Jul</option>
+                        <option value="7">Aug</option>
+                        <option value="8">Sep</option>
+                        <option value="9">Oct</option>
+                        <option value="10">Nov</option>
+                        <option value="11">Dec</option>
                     </select>
                     <select class="form-select w-auto" id="date-select">
-                        <option>Date</option>
+                        <!-- Dates will be populated by JavaScript -->
                     </select>
+                    <button class="btn btn-primary" id="filter-btn">Filter</button>
                 </div>
                 <canvas id="chillerGraph"></canvas>
             </div>
@@ -193,36 +193,150 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
                 let chart;
+                let currentChillerName = 'Dairy Chiller';
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
 
-                const sampleData = {
-                    "Dairy Chiller": [4.1, 4.2, 4.1, 4.0, 4.2, 4.3],
+                // Time labels from 0600 to 1100 (6-hour window)
+                const timeLabels = ['0600', '0700', '0800', '0900', '1000', '1100'];
+
+                // Static data for all chillers (shown by default)
+                const staticDataSamples = {
+                    "Dairy Chiller": [4.1, 4.2, 4.1, 4.1, 4.2, 4.3],
                     "Holding Chiller": [5.2, 5.3, 5.1, 5.0, 5.2, 5.3],
-                    "Holding Freezer": [-18.5, -18.3, -18.7, -18.4, -18.5, -18.6],
+                    "Holding Freezer": [-18.5, -18.3, -18.7, -19.4, -19.5, -19.6],
                     "Meat Chiller": [3.8, 3.9, 4.0, 3.7, 3.8, 3.9],
-                    "Vegetable Chiller": [4.6, 34.8, 49.4, -21.2, 43.5, 4.7],
+                    "Vegetable Chiller": [4.6, 34.8, 49.4, 50.5, 43.5, 42.7],
                     "General Freezer": [-20.0, -20.1, -19.9, -20.2, -20.0, -20.3],
                     "Fuze Chiller": [4.0, 4.1, 4.0, 3.9, 4.0, 3.8],
                     "Fuze Freezer": [-19.3, -19.5, -19.4, -19.2, -19.3, -19.1],
-                    "Banquet Chiller": [5.0, 5.1, 5.2, 5.0, 5.1, 5.2],
+                    "Banquet Chiller": [5.0, 5.1, 5.6, 6.0, 5.7, 5.2],
                     "Banquet Freezer": [-21.1, -21.2, -21.0, -21.3, -21.1, -21.2]
                 };
 
+                // List of chillers that can fetch historical data from database
+                const dbChillers = [
+                    "Dairy Chiller", "Holding Chiller", "Holding Freezer",
+                    "Meat Chiller", "Vegetable Chiller", "General Freezer",
+                    "Fuze Chiller", "Fuze Freezer",
+                    "Banquet Chiller", "Banquet Freezer"
+                ];
 
-                function renderChart(chillerName) {
+                function formatDisplayDate(date) {
+                    const month = monthNames[date.getMonth()];
+                    const day = date.getDate();
+                    const year = date.getFullYear();
+                    return `${month} ${day}, ${year}`;
+                }
+
+                function formatDateForDB(date) {
+                    const year = date.getFullYear();
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const day = date.getDate().toString().padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+
+                function isCurrentDate(selectedDate) {
+                    const today = new Date();
+                    return (
+                        selectedDate.getDate() === today.getDate() &&
+                        selectedDate.getMonth() === today.getMonth() &&
+                        selectedDate.getFullYear() === today.getFullYear()
+                    );
+                }
+
+                function setDateControlsToToday() {
+                    const today = new Date();
+                    document.getElementById('year-select').value = today.getFullYear();
+                    document.getElementById('month-select').value = today.getMonth();
+                    document.getElementById('date-select').value = today.getDate().toString();
+                    return today;
+                }
+
+                async function fetchChillerData(chillerName, date) {
+                    try {
+                        const dbDate = formatDateForDB(date);
+                        const response = await fetch(`../php/fetch_chiller_data.php?freezer_name=${encodeURIComponent(chillerName)}&date=${dbDate}`);
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        console.log(data);
+                        if (data.error) {
+                            console.error('Server error:', data.error);
+                            return null;
+                        }
+
+                        // Convert the array data to our expected format
+                        return data.map(temp => temp !== null ? parseFloat(temp) : null);
+
+                    } catch (error) {
+                        console.error('Error fetching chiller data:', error);
+                        return null;
+                    }
+                }
+
+                async function updateGraph(type, chillerName) {
+                    currentChillerName = chillerName;
+                    const year = parseInt(document.getElementById('year-select').value);
+                    const month = parseInt(document.getElementById('month-select').value);
+                    const day = parseInt(document.getElementById('date-select').value);
+                    const selectedDate = new Date(year, month, day);
+
+                    const today = new Date();
+                    const isToday = isCurrentDate(selectedDate);
+
+                    let temperatureData;
+                    let useStaticData = true;
+
+                    if (type === 'static') {
+                        temperatureData = staticDataSamples[chillerName] || [];
+                        renderChart(chillerName, today, temperatureData, true);
+                    }
+                    else {
+                        if (dbChillers.includes(chillerName) && !isToday) {
+                            // Try to fetch historical data from database
+                            temperatureData = await fetchChillerData(chillerName, selectedDate);
+                            console.log(temperatureData)
+
+                            if (temperatureData !== null) {
+                                useStaticData = false;
+                            }
+                        } else {
+                            temperatureData = staticDataSamples[chillerName] || [];
+                        }
+                    }
+
+                    renderChart(chillerName, selectedDate, temperatureData, useStaticData);
+                }
+
+                function renderChart(chillerName, date, temperatureData, isStaticData = true) {
                     const ctx = document.getElementById('chillerGraph').getContext('2d');
                     if (chart) chart.destroy();
+
+                    // Format date for display
+                    const displayDate = formatDisplayDate(date);
+                    const titleSuffix = isStaticData ? " (Current Status)" : " (Historical Data)";
+
+                    document.getElementById('graph-title').innerText = `Graph of ${chillerName} - ${displayDate}${titleSuffix}`;
+
+                    // Special styling for chiller in error state
+                    const isError = chillerName === "Vegetable Chiller";
+                    const borderColor = isError ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)';
+                    const backgroundColor = isError ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)';
 
                     chart = new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            labels: timeLabels,
                             datasets: [{
-                                label: `${chillerName} Temperature (°C)`,
-                                data: sampleData[chillerName],
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                tension: 0.3,
-                                fill: true
+                                label: `${chillerName} Temperature`,
+                                data: temperatureData,
+                                borderColor: borderColor,
+                                backgroundColor: backgroundColor,
+                                fill: true,
+                                tension: 0.3
                             }]
                         },
                         options: {
@@ -233,34 +347,105 @@
                                     title: {
                                         display: true,
                                         text: 'Temperature (°C)'
-                                    }
+                                    },
+                                    min: isError ? -30 : null,
+                                    max: isError ? 60 : null
                                 },
                                 x: {
                                     title: {
                                         display: true,
-                                        text: 'Month'
+                                        text: 'Time'
+                                    },
+                                    ticks: {
+                                        callback: function (value) {
+                                            const timeStr = timeLabels[value];
+                                            return timeStr.slice(0, 2) + ':' + timeStr.slice(2);
+                                        }
                                     }
                                 }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            const value = context.parsed.y;
+                                            if (value === null) return 'No data available';
+                                            if (isError) {
+                                                return value < 0 ? 'DANGER: Too Cold!' :
+                                                    value > 10 ? 'DANGER: Too Hot!' :
+                                                        `Temperature: ${value}°C`;
+                                            }
+                                            return `Temperature: ${value}°C`;
+                                        },
+                                        title: function (context) {
+                                            const timeStr = timeLabels[context[0].dataIndex];
+                                            return `${displayDate} at ${timeStr.slice(0, 2)}:${timeStr.slice(2)}`;
+                                        }
+                                    }
+                                },
+                                annotation: isError ? {
+                                    annotations: {
+                                        dangerZoneHot: {
+                                            type: 'box',
+                                            yMin: 10,
+                                            yMax: 60,
+                                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                            borderColor: 'rgba(255, 99, 132, 0.5)',
+                                            borderWidth: 1
+                                        },
+                                        dangerZoneCold: {
+                                            type: 'box',
+                                            yMin: -30,
+                                            yMax: 0,
+                                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                            borderColor: 'rgba(54, 162, 235, 0.5)',
+                                            borderWidth: 1
+                                        }
+                                    }
+                                } : {}
                             }
                         }
                     });
                 }
 
-                function updateGraph(chillerName) {
-                    document.getElementById("graph-title").innerText = `Graph of ${chillerName}`;
-                    renderChart(chillerName);
-                }
-
-                // Default
-                renderChart('Dairy Chiller');
-
+                // Initialize the graph when page loads
                 document.addEventListener('DOMContentLoaded', () => {
+                    // Set date controls to current date
+                    const today = setDateControlsToToday();
+
+                    // Render the initial graph for Dairy Chiller with static data
+                    renderChart('Dairy Chiller', today, staticDataSamples['Dairy Chiller'], true);
+
+                    // Add event listeners
+                    document.getElementById('filter-btn').addEventListener('click', () => {
+                        updateGraph('dynamic', currentChillerName);
+                    });
+
+                    // Initialize date select options
                     const dateSelect = document.getElementById("date-select");
                     for (let i = 1; i <= 31; i++) {
                         const option = document.createElement("option");
                         option.value = option.text = i.toString().padStart(2, '0');
                         dateSelect.appendChild(option);
                     }
+
+                    // Add click handlers for all chiller cards
+                    document.querySelectorAll('.chiller-card').forEach(card => {
+                        card.addEventListener('click', function () {
+                            // Get the chiller name from the onclick attribute
+                            const onclickText = this.getAttribute('onclick');
+                            const chillerNameMatch = onclickText.match(/updateGraph\('(\w+)', '([\w\s]+)'\)/);
+
+                            if (!chillerNameMatch) return;
+
+                            const chillerName = chillerNameMatch[2];
+                            currentChillerName = chillerName;
+
+                            // Always show current data when clicking chillers
+                            const today = setDateControlsToToday();
+                            updateGraph('static', chillerName);
+                        });
+                    });
 
                     // Floor selector
                     const floorSelect = document.getElementById("floor-select");
@@ -277,22 +462,9 @@
                     });
 
                     showSelectedFloor("b2"); // Default floor
-                    updateGraph("Dairy Chiller"); // Default graph
                 });
-            </script>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const dateSelect = document.getElementById("date-select");
-                    for (let i = 1; i <= 31; i++) {
-                        const option = document.createElement("option");
-                        option.value = option.text = i.toString().padStart(2, '0');
-                        dateSelect.appendChild(option);
-                    }
-                });
-            </script>
-
-            <script>
+                // Toggle sidebar menu
                 const toggleBtn = document.getElementById('toggle-menubar-dashboard');
                 const sidebarDashboard = document.getElementById('sidebar-dashboard');
 
@@ -300,8 +472,8 @@
                     sidebarDashboard.classList.toggle('hidden');
                 });
             </script>
-
         </div>
+    </div>
 </body>
 
 </html>

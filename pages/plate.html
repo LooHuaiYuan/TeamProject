@@ -61,10 +61,8 @@
       <div class="plate-container">
         <h2 class="plate-section-title">Plate Queuing</h2>
         <div id="loading" class="loading-container">
-          <div id="loading" class="loading-container">
             <div class="spinner-border big-spinner" role="status"></div>
             <div class="loading-text mt-3">Loading plate data...</div>
-          </div>
         </div>
         <div class="plate-grid" id="plateGrid">
 
@@ -75,45 +73,125 @@
   </div>
 
   <script>
+    /*email function*/
+    function sendNotification(floor_id, hours, minutes, seconds) {
+    fetch('../php/mail.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        floor_id,
+        hours,
+        minutes,
+        seconds
+      })
+    })
+    .then(response => response.text())
+    .then(result => {
+      console.log('Email sent:', result);
+    })
+    .catch(error => {
+      console.error('Email error:', error);
+    });
+    }
+
     const container = document.getElementById("plateGrid");
     const loadingIndicator = document.getElementById("loading");
+
     fetch("../php/get_plate_data.php")
-    .then(response => response.json())
-    .then(data => {
-      container.innerHTML = '';
-      loadingIndicator.style.display = 'none';  // Hide loading
+      .then(response => response.json())
+      .then(data => {
+        container.innerHTML = '';
+        loadingIndicator.style.display = 'none';
+        let emailSent = false; // Track whether notification was already sent
 
-      const sortedData = data
-        .filter(({ hours, minutes }) => !(hours == 0 && minutes == 0))
-        .sort((a, b) => b.hours - a.hours);
 
-      sortedData.forEach(({ floor_id, hours, minutes }) => {
-        const plateDiv = document.createElement("div");
-        plateDiv.className = "plate-button";
-        plateDiv.setAttribute("data-time", hours);
+        // 1. Filter out plates with 0 hours and 0 minutes
+        const filtered = data.filter(item => {
+          return !(parseInt(item.hours) === 0 && parseInt(item.minutes) === 0);
+        });
 
-        if (hours >= 8) plateDiv.classList.add("flashing-button");
+        // 2. Sort by total time in descending order
+        filtered.sort((a, b) => {
+          const totalA = parseInt(a.hours) * 3600 + parseInt(a.minutes) * 60 + parseInt(a.seconds);
+          const totalB = parseInt(b.hours) * 3600 + parseInt(b.minutes) * 60 + parseInt(b.seconds);
+          return totalB - totalA;
+        });
 
-        plateDiv.innerHTML = `
-          <div class="plate-icon">
-            <i class="fas fa-building"></i>
-          </div>
-          <div class="plate-info">
-            <div class="plate-floor">Floor ${floor_id}</div>
-            <div class="plate-time ${hours > 8 ? "plate-red" : ""}">${hours}h : ${minutes.toString().padStart(2, '0')}m</div>
-          </div>
-        `;
-        container.appendChild(plateDiv);
+        // 3. Display sorted items
+        filtered.forEach((item, index) => {
+          let floorId = item.floor_id;
+          let hours = parseInt(item.hours);
+          let minutes = parseInt(item.minutes);
+          let seconds = parseInt(item.seconds);
+
+          const plateId = `plate-${floorId}`;
+
+          const plateDiv = document.createElement("div");
+          plateDiv.className = "plate-button";
+          plateDiv.setAttribute("data-time", `${hours}:${minutes}:${seconds}`);
+
+          if (hours >= 8) {
+            plateDiv.classList.add("flashing-button");
+          }
+
+          plateDiv.innerHTML = `
+            <div class="plate-icon">
+              <i class="fas fa-building"></i>
+            </div>
+            <div class="plate-info">
+              <div class="plate-floor">Floor ${floorId}</div>
+              <div id="${plateId}" class="plate-time ${hours >= 8 ? "plate-red" : ""}">
+                ${hours}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s
+              </div>
+            </div>
+          `;
+          container.appendChild(plateDiv);
+
+          // 4. Start timer for this plate
+          setInterval(() => {
+            seconds++;
+            if (seconds >= 60) {
+              seconds = 0;
+              minutes++;
+              if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+              }
+            }
+
+            const timeDisplay = document.getElementById(plateId);
+            if (timeDisplay) {
+              timeDisplay.textContent = `${hours}h : ${String(minutes).padStart(2, '0')}m : ${String(seconds).padStart(2, '0')}s`;
+
+              const parent = timeDisplay.closest('.plate-button');
+              if (hours >= 8) {
+                timeDisplay.classList.add('plate-red');
+                parent.classList.add('flashing-button');
+              }
+            }
+            // ✅ Send email only if time has just become >= 8 hours on this page
+            if (!emailSent && hours === 8 && minutes === 0 && seconds === 0) {
+              sendNotification(floorId, hours, minutes, seconds);
+              emailSent = true;
+            }
+          }, 1000);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+        container.innerHTML = '<p style="color: red;">Error loading data.</p>';
       });
-    })
-    .catch(error => console.error("Error fetching data:", error));
-    const toggleBtn = document.getElementById('toggle-menubar-dashboard');
-            const sidebarDashboard = document.getElementById('sidebar-dashboard');
 
-            toggleBtn.addEventListener('click', () => {
-                sidebarDashboard.classList.toggle('hidden');
+    // Sidebar toggle
+    const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+    const sidebarDashboard = document.getElementById('sidebar-dashboard');
+    toggleBtn.addEventListener('click', () => {
+      sidebarDashboard.classList.toggle('hidden');
     });
-  </script>
+</script>
+
 
  
 

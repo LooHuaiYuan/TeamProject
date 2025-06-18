@@ -16,7 +16,6 @@
       background-color: #2e2e2e;
       color: white;
       border-bottom: 2px solid #b08d57;
-      /* gold */
     }
 
     .page-header i {
@@ -69,11 +68,9 @@
     }
 
     .table th {
-      /* background-color: #000; */
       color: goldenrod;
       text-transform: uppercase;
       font-size: 15px;
-      /* color: #888; */
       border: none;
       background: transparent;
     }
@@ -91,7 +88,6 @@
     }
 
     .icon-check {
-      /* font-size: 18px; */
       font-size: 1.25rem;
       color: #ccc;
       cursor: pointer;
@@ -103,14 +99,12 @@
     }
 
     .badge-status {
-      /* font-size: 13px; */
       font-size: 0.75rem;
       border-radius: 12px;
       padding: 4px 10px;
     }
 
     .btn-action {
-      /* font-size: 13px; */
       font-size: 0.75rem;
       border-radius: 50%;
       padding: 6px 8px;
@@ -153,33 +147,43 @@
   <!-- search container -->
   <div class="search-container">
     <div class="row g-2">
+      <!--Text search: Type ID manually-->
       <div class="col-md-4 d-flex align-items-center">
         <i class="fa fa-search me-2 text-white"></i>
-        <input type="text" class="form-control" placeholder="Search AC..." />
+        <input type="text" class="form-control" id="search-text" placeholder="Search AC by ID..." />
       </div>
+      <!--Dropdown filter for ID-->
       <div class="col-md-2">
-        <select class="form-select">
-          <option>All ID</option>
-          <option>AC001</option>
-          <option>AC002</option>
-          <option>AC003</option>
+        <select class="form-select" id="filter-id">
+          <option value="" selected>All ID</option>
+          <option value="AC-001">AC-001</option>
+          <option value="AC-002">AC-002</option>
+          <option value="AC-003">AC-003</option>
+          <option value="AC-004">AC-004</option>
+          <option value="AC-005">AC-005</option>
+          <option value="AC-006">AC-006</option>
         </select>
       </div>
+      <!--Dropdown filter for system -->
       <div class="col-md-2">
-        <select class="form-select" placeholder="Category">
-          <option disabled selected>Category</option>
-          <option>BCS</option>
-          <option>Digital</option>
+        <select class="form-select" id="filter-system" placeholder="Category">
+          <option value="" selected >All Category</option>
+          <option value="bcs">BCS</option>
+          <option value="digital">Digital</option>
         </select>
       </div>
+      <!-- Dropdown filter for location (floor)-->
       <div class="col-md-2">
-        <select class="form-select" placeholder="Location">
-          <option disabled selected>Location</option>
-          <option>M-floor</option>
-          <option>1st floor</option>
-          <option>2nd floor</option>
+        <select class="form-select" id="filter-floor" placeholder="Location">
+          <option value="" selected>All Location</option>
+          <option value="b2">B2 floor</option>
+          <option value="ground">Ground floor</option>
+          <option value="m">M floor</option>
+          <option value="first">1st floor</option>
+          <option value="15th">15th floor</option>
         </select>
       </div>
+      <!--search button-->
       <div class="col-md-2">
         <button class="btn search-btn w-100" onclick="applyFilters()">Search</button>
       </div>
@@ -187,7 +191,7 @@
   </div>
 
   <div class="d-flex justify-content-end me-4 ">
-    <button class="btn btn-sm btn-primary add-new-btn d-flex algin-items-center">
+    <button class="btn btn-sm btn-primary add-new-btn d-flex algin-items-center" data-bs-toggle="modal" data-bs-target="#acModal" onclick="openEditModal(null)">
       <i class="fa fa-plus me-1"></i><span class="btn-text">Add New AC</span>
     </button>
   </div>
@@ -206,7 +210,7 @@
           <th class="text-end">Actions</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="ac-table-tbody"></tbody>
     </table>
   </div>
 
@@ -216,162 +220,256 @@
       <div class="modal-content bg-white text-dark">
         <div class="modal-header">
           <h5 class="modal-title" id="modalTitle">Add New AC</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="closeModal()"></button>
         </div>
-        <div class="modal-body">
-          <input type="hidden" id="ac-id-hidden" />
-          <div class="mb-3">
-            <label>ID</label>
-            <input type="text" class="form-control" id="ac-id" />
+        <form id="acForm">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label>ID</label>
+              <input type="text" class="form-control" id="ac-id" name="id"/>
+            </div>
+            <div class="mb-3">
+              <label>Room</label>
+              <select class="form-select" id="ac-room-name" name="room_name">
+                <option disabled selected>-- Select Room --</option>
+                <option value="Room 1">Room 1</option>
+                <option value="Room 2">Room 2</option>
+                <option value="Room 3">Room 3</option>
+                <option value="Room 4">Room 4</option>
+                <option value="Room 5">Room 5</option>
+                <option value="Room 6">Room 6</option>
+                <option value="Room 7">Room 7</option>
+                <option value="Room 8">Room 8</option>
+                <option value="Room 9">Room 9</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label>Floor</label>
+              <select class="form-select" id="ac-floor" name="floor">
+                <option disabled selected>-- Select Floor --</option>
+                <option value="b2">B2 floor</option>
+                <option value="ground">Ground floor</option>
+                <option value="m">M floor</option>
+                <option value="first">1st floor</option>
+                <option value="15th">15th floor</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label>Status</label>
+              <select class="form-select" id="ac-status" name="status">
+                <option disabled selected>-- Select Status --</option>
+                <option value="on">Active</option>
+                <option value="off">Closed</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label>System</label>
+              <select class="form-select" id="ac-system" name="system">
+                <option disabled selected>-- Select System --</option>
+                <option value="bcs">BCS</option>
+                <option value="digital">Digital</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label>Date</label>
+              <input type="date" class="form-control" id="ac-date" name="created_at"/>
+            </div>
+            <input type="hidden" id="isEdit" value="false"/>
           </div>
-          <div class="mb-3">
-            <label>System</label>
-            <select class="form-select" id="ac-system">
-              <option>BCS</option>
-              <option>Digital</option>
-            </select>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveAC()">Save</button>
           </div>
-          <div class="mb-3">
-            <label>Location</label>
-            <select class="form-select" id="ac-location">
-              <option>M-floor</option>
-              <option>1st floor</option>
-              <option>2nd floor</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label>Status</label>
-            <select class="form-select" id="ac-status">
-              <option>Active</option>
-              <option>Closed</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label>Date</label>
-            <input type="date" class="form-control" id="ac-date" />
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" onclick="saveAC()">Save</button>
-        </div>
+        </form>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    let acData = [
-      { id: "AC-001", system: "BCS", location: "M-floor", status: "Active", date: "2025-05-01" },
-      { id: "AC-002", system: "Digital", location: "1st floor", status: "Closed", date: "2025-04-30" },
-      { id: "AC-003", system: "Digital", location: "M-floor", status: "Active", date: "2025-04-25" },
-      { id: "AC-004", system: "Digital", location: "2nd floor", status: "Closed", date: "2025-04-25" },
-    ];
+    document.addEventListener('DOMContentLoaded', function(){
+      fetchACData();
+    });
 
-    const tbody = document.querySelector("tbody");
-    const modal = new bootstrap.Modal(document.getElementById("acModal"));
+    function fetchACData(filters={}){
+      const params = new URLSearchParams(filters).toString();
+      const url = `../php/get_acList_data.php${params ? '?' + params : '' }`;
 
-    function renderTable(data) {
-      tbody.innerHTML = "";
-      data.forEach(ac => {
-        const statusBadge = ac.status === "Active"
-          ? `<span class="badge bg-success badge-status">Active</span>`
-          : `<span class="badge bg-secondary badge-status">Closed</span>`;
-        tbody.innerHTML += `
-        <tr>
-          <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
-          <td>${ac.id}</td>
-          <td>${ac.system}</td>
-          <td>${ac.location}</td>
-          <td>${statusBadge}</td>
-          <td>${ac.date}</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary btn-action" onclick="openEditModal('${ac.id}')"><i class="fa-solid fa-pen"></i></button>
-            <button class="btn btn-sm btn-outline-danger btn-action" onclick="deleteAC('${ac.id}')"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        </tr>`;
-      });
+      fetch(url)
+        .then(response => response.json())
+        .then(data => renderACTable(data))
+        .catch(error => console.error('Error fetching AC data: ', error));
     }
 
-    function toggleHighlight(icon) {
-      icon.classList.toggle("active");
-      icon.closest("tr").classList.toggle("highlighted");
+    function renderACTable(acList){
+      const tbody = document.getElementById('ac-table-tbody');
+      tbody.innerHTML = '';
+
+      if(!Array.isArray(acList)){
+        console.error("Data format error: ", acList);
+        return;
+      }
+
+      acList.forEach(ac => {
+        const statusBadge = ac.status ==='on'
+          ? '<span class="badge bg-success">Active</span>'
+          : '<span class="badge bg-secondary">Closed</span>';
+
+          const row = `
+            <tr>
+              <td><i class="fa-regular fa-circle-check icon-check" onclick="toggleHighlight(this)"></i></td>
+              <td>${ac.id}</td>
+              <td>${ac.system}</td>
+              <td>${ac.floor} floor </td>
+              <td>${statusBadge}</td>
+              <td>${ac.created_at}</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-primary" onclick="openEditModal('${ac.id}')"><i class="fa fa-pen"></i></button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteAC('${ac.id}')"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+          `;
+          tbody.insertAdjacentHTML('beforeend', row);
+      });
     }
 
     function applyFilters() {
-      const searchText = document.querySelector('input[type="text"]').value.toLowerCase();
-      const system = document.querySelectorAll("select")[0].value;
-      const category = document.querySelectorAll("select")[1].value;
-      const location = document.querySelectorAll("select")[2].value;
+      const searchText = document.getElementById("search-text").value.trim().toLowerCase();
+      const selectedId = document.getElementById("filter-id").value;
+      const filterSystem = document.getElementById("filter-system").value;
+      const filterFloor = document.getElementById("filter-floor").value;
 
-      const filtered = acData.filter(ac => {
-        const matchesSearch = ac.id.toLowerCase().includes(searchText);
-        const matchesSystem = systemFilter === "All AC" || ac.id === systemFilter;
-        const matchesCategory = categoryFilter === "Category" || ac.system === categoryFilter;
-        const matchesLocation = locationFilter === "Location" || ac.location === locationFilter;
-        return matchesSearch && matchesSystem && matchesCategory && matchesLocation;
+      let filters = {};
 
-      });
-
-      renderTable(filtered);
-    }
-
-    document.querySelector(".search-btn").addEventListener("click", applyFilters);
-
-    function openEditModal(id) {
-      const ac = acData.find(item => item.id === id);
-      document.getElementById("modalTitle").innerText = "Edit AC";
-      document.getElementById("ac-id-hidden").value = ac.id;
-      document.getElementById("ac-id").value = ac.id;
-      document.getElementById("ac-system").value = ac.system;
-      document.getElementById("ac-location").value = ac.location;
-      document.getElementById("ac-status").value = ac.status;
-      document.getElementById("ac-date").value = ac.date;
-      modal.show();
-    }
-
-    function saveAC() {
-      const hiddenId = document.getElementById("ac-id-hidden").value;
-      const id = document.getElementById("ac-id").value;
-      const system = document.getElementById("ac-system").value;
-      const location = document.getElementById("ac-location").value;
-      const status = document.getElementById("ac-status").value;
-      const date = document.getElementById("ac-date").value;
-
-      if (hiddenId) {
-        const index = acData.findIndex(ac => ac.id === hiddenId);
-        acData[index] = { id, system, location, status, date };
-      } else {
-        acData.push({ id, system, location, status, date });
+      if(searchText !== ""){
+        filters.id = searchText;
+      } else if (selectedId !== ""){
+        filters.id = selectedId;
       }
 
-      modal.hide();
-      renderTable(acData);
+      if(filterSystem !== ""){
+        filters.system = filterSystem;
+      }
+
+      if(filterFloor !== ""){
+        filters.floor = filterFloor;
+      }
+      
+      fetchACData(filters);
+    }
+
+    function openEditModal(id){
+      const modalTitle = document.getElementById('modalTitle');
+      if (id === null){
+        modalTitle.innerText = 'Add New AC';
+        document.getElementById('acForm').reset();
+        document.getElementById('ac-id').readOnly = false;
+        document.getElementById('idEdit').value = 'false';
+        document.getElementById('acModal').style.display = 'block';
+      }else{
+        fetch('../php/get_acList_data.php?id=' + encodeURIComponent(id.trim()))
+          .then(res => res.json())
+          .then(acList => {
+            try{
+              console.log('AC list response: ',acList);
+              if (!acList || acList.length ===0){
+                alert('AC unit not fount: '+ id);
+                return;
+              }
+              
+              const ac = acList[0];
+              modalTitle.innerText = 'Edit AC';
+              console.log('Setting form values for:', ac);
+              document.getElementById("ac-id").value = ac.id;
+              console.log('Set ac-id', ac.id);
+              document.getElementById("ac-room-name").value = ac.room_name;
+              console.log('Set room-name',ac.room_name);
+              document.getElementById("ac-floor").value = ac.floor;
+              console.log('Set floor', ac.floor);
+              document.getElementById("ac-status").value = ac.status;
+              console.log('Set status',ac.status);
+              document.getElementById("ac-system").value = ac.system;
+              console.log('Set system', ac.system);
+              document.getElementById("ac-date").value = ac.created_at.split(' ')[0];
+              console.log('Set date',ac.created_at.split(' ')[0]);
+              document.getElementById("ac-id").readOnly = true;
+              document.getElementById('isEdit').value='true';
+              new bootstrap.Modal(document.getElementById('acModal')).show();
+            }catch(error){
+              console.error('error while populating modal: ', error);
+            }
+          })
+          .catch(error => {
+            alert('Failed to fetch AC data: '+ id);
+            console.error(error);
+          });
+      }
+    }
+
+    function closeModal(){
+      document.getElementById('acModal').style.display = 'none';
+    }
+
+
+    function saveAC(){
+      const isEdit = document.getElementById('isEdit').value === 'true';
+      const formData = new FormData(document.getElementById('acForm'));
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+      const url = isEdit ? '../php/update_ac.php' : '../php/add_ac.php';
+
+      fetch (url, {method: 'POST', body: formData})
+        .then(response => response.text())
+        .then(result => {
+          console.log("Server response: ",result);
+          alert(result);
+          closeModal();
+          location.reload();
+        })
+        .catch(error => {
+          console.error('Error: ', error);
+        });
+    }
+
+    window.onclick = function(event){
+      const modal = document.getElementById('acModal');
+      if(event.target ===modal){
+        modal.style.display = 'none';
+      }
     }
 
     function deleteAC(id) {
-      if (confirm("Are you sure to delete " + id + "?")) {
-        const index = acData.findIndex(ac => ac.id === id);
-        if (index > -1) {
-          acData.splice(index, 1);
-          renderTable(acData);
-        }
-      }
+      if (!confirm(`Are you sure you want to delete AC unit ${id}?`)) return;
+      
+      fetch('../php/delete_ac.php', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({ id: id }) // Make sure it's JSON
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.success) {
+            alert('Deleted successfully!');
+            location.reload();
+          } else {
+            alert('Delete failed: ' + result.error);
+          }
+        }).catch(error=>{
+            consolce.error('Error: ', error);
+        });
     }
 
-    document.querySelector(".add-new-btn").addEventListener("click", () => {
-      document.getElementById("modalTitle").innerText = "Add New AC";
-      document.getElementById("ac-id-hidden").value = "";
-      document.getElementById("ac-id").value = "";
-      document.getElementById("ac-system").value = "";
-      document.getElementById("ac-location").value = "";
-      document.getElementById("ac-status").value = "";
-      document.getElementById("ac-date").value = "";
-      modal.show();
-    });
+    function toggleHighlight(el) {
+      el.classList.toggle("active");
+      el.closest("tr").classList.toggle("highlighted");
+    }
 
-    //Initial table load
-    renderTable(acData);
+    // Init
+    fetchACData();
   </script>
 
 </body>

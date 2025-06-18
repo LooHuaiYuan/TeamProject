@@ -66,7 +66,7 @@
                     <option value="ground">Ground Floor</option>
                     <option value="m">M Floor</option>
                     <option value="first">1st Floor</option>
-                    <option value="15">15th Floor</option>
+                    <option value="15th">15th Floor</option>
                 </select>
                 <a href="acList.html" class="btn-to-aclist">
                     <h5 class="mb-0 text-nowrap" id="acList-title">Full AC List</h5>
@@ -94,16 +94,50 @@
                 ground: 'g_map.png',
                 m: 'm_map.png',
                 first: '1st_map.png',
-                15: '1st_map.png'
+                '15th': '1st_map.png'
             };
 
             function fetchACData(floor) {
                 fetch(`../php/get_ac_data.php?floor=${floor}`)
                     .then(response => response.json())
                     .then(data => {
-                        currentRoomsData = data;  // store latest data globally
+                        // Group ACs by room_name and count occurrences
+                        const roomCounts = {};
+                        data.forEach(ac => {
+                            roomCounts[ac.room_name] = (roomCounts[ac.room_name] || 0) + 1;
+                        });
+
+                        // Create a map for room suffixes
+                        const roomSuffixes = {};
+                        const sortedData = [...data].sort((a, b) => {
+                            // First sort by room name
+                            const roomCompare = a.room_name.localeCompare(b.room_name);
+                            if (roomCompare !== 0) return roomCompare;
+
+                            // Then sort by AC ID
+                            return a.id.localeCompare(b.id);
+                        });
+
+                        // Generate display names with suffixes
+                        const processedData = sortedData.map(ac => {
+                            if (roomCounts[ac.room_name] > 1) {
+                                roomSuffixes[ac.room_name] = (roomSuffixes[ac.room_name] || 0) + 1;
+                                const suffix = String.fromCharCode(64 + roomSuffixes[ac.room_name]); // A, B, C, etc.
+                                return {
+                                    ...ac,
+                                    displayName: `${ac.room_name} - ${suffix}`
+                                };
+                            }
+                            return {
+                                ...ac,
+                                displayName: ac.room_name
+                            };
+                        });
+
+                        currentRoomsData = processedData;
                         acRoomsContainer.innerHTML = "";
-                        data.forEach(room => {
+
+                        processedData.forEach(room => {
                             const card = document.createElement("div");
                             card.className = "col-lg-4 col-md-6 mb-4 fs-5";
 
@@ -124,12 +158,11 @@
                             card.innerHTML = `
                     <div class="ac-room-card card text-center shadow-sm" onclick='openRoomDetail("${room.id}")'>
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <strong>${room.room_name}</strong>
+                            <strong>${room.displayName}</strong>
                             <span class="badge ${statusColor} text-white px-3 py-1">${room.status.toUpperCase()}</span>
                         </div>
                         ${cardBodyHTML}
                     </div>`;
-
                             acRoomsContainer.appendChild(card);
                         });
                     });
@@ -150,7 +183,7 @@
                 popup.innerHTML = `
         <div class="ac-popup-card card p-4 position-relative">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <strong>${room.room_name || '-'}</strong>
+                <strong>${room.displayName}</strong>
                 <span class="badge ${statusColor} text-white px-3 py-1">${(room.status || '-').toUpperCase()}</span>
             </div>
             <div class="card-body text-center">
