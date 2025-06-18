@@ -32,10 +32,18 @@ $sql = "SELECT record_time as hour, temperature
         ORDER BY hour";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $heater_id, $formatted_date);
-$stmt->execute();
-$result = $stmt->get_result();
+if (!$stmt) {
+    echo json_encode(['error' => "Prepare failed: " . $conn->error]);
+    exit;
+}
 
+$stmt->bind_param("ss", $heater_id, $formatted_date);
+if (!$stmt->execute()) {
+    echo json_encode(['error' => "Execute failed: " . $stmt->error]);
+    exit;
+}
+
+$result = $stmt->get_result();
 $data = array_fill(0, 24, null); // Initialize array for 24 hours
 
 while ($row = $result->fetch_assoc()) {
@@ -43,10 +51,6 @@ while ($row = $result->fetch_assoc()) {
     $data[$hour] = (float)$row['temperature'];
 }
 
-// Extract only the hours we need (6-11)
-$filteredData = array_slice($data, 6, 6);
-
-echo json_encode($filteredData);
+echo json_encode($data);
 
 $conn->close();
-?>

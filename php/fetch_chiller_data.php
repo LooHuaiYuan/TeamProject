@@ -42,7 +42,7 @@ if (!in_array($freezer_name, $validChillers)) {
 }
 
 // Remove the time part if it exists in the date
-$formatted_date = explode(' ', $date)[0];
+$formatted_date = date('Y-m-d', strtotime($date));
 
 // Prepare the SQL query to get hourly data
 $sql = "SELECT record_time as hour, temperature 
@@ -51,8 +51,15 @@ $sql = "SELECT record_time as hour, temperature
         ORDER BY hour";
 
 $stmt = $conn->prepare($sql);
+if (!$stmt) {
+    echo json_encode(['error' => "Prepare failed: " . $conn->error]);
+    exit;
+}
 $stmt->bind_param("ss", $freezer_name, $formatted_date);
-$stmt->execute();
+if (!$stmt->execute()) {
+    echo json_encode(['error' => "Execute failed: " . $stmt->error]);
+    exit;
+}
 $result = $stmt->get_result();
 
 $data = array_fill(0, 24, null); // Initialize array for 24 hours
@@ -62,9 +69,6 @@ while ($row = $result->fetch_assoc()) {
     $data[$hour] = (float)$row['temperature'];
 }
 
-// Extract only the hours we need (6-11)
-$filteredData = array_slice($data, 6, 6);
-
-echo json_encode($filteredData);
+echo json_encode($data);
 
 $conn->close();
