@@ -23,17 +23,17 @@
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssss", $room_name, $floor, $status, $system, $id);
 
-        // if ($stmt->execute()) {
-        //     echo json_encode(["success" => true]);
-        // } else {
-        //     http_response_code(500);
-        //     echo json_encode(["success" => false, "error" => "Update failed"]);
-        // }
+        if ($stmt->execute()) {
+            echo json_encode('Update Successfully');
+        } else {
+            http_response_code(500);
+            echo json_encode('Update Failed');
+        }
     
         $stmt->close();
 
     }else {
-        echo json_encode(["success" => false, "error" => "SQL prepare failed"]);
+        echo json_encode('SQL prepare failed');
     }
 
     $conn->close();

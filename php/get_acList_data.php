@@ -42,7 +42,7 @@
 
     if(!$stmt){
         http_response_code(500);
-        echo json_encode(["error" => "SQL prepare failed"]);
+        echo json_encode('SQL prepare failed');
         exit();
     }
 
