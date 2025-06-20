@@ -1,0 +1,232 @@
+:root {
+    --primary-color: #fefaf1;
+    --accent: #edddb9;
+    --highlight: #caa346;
+    --text-color: #333;
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.3);
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    overflow: hidden;
+  }
+  
+/* Guest Login */
+  .login-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/guest_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px) brightness(0.6);
+    z-index: -1;
+  }
+  
+  .hotel-logo-login {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .title-login {
+    font-size: 45px;
+    font-weight: 700;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .login-box {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: var(--glass-bg);
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    color: white;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  .login-box h2 {
+    font-weight: 600;
+    color: rgb(132, 118, 83);
+  }
+  
+  .btn-login {
+    background-color: black;
+  color: white;
+  border-radius: 6px;
+  padding: 5px;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+  }
+  
+  .btn-login:hover {
+    background-color: var(--highlight);
+    color: black;
+  }
+  
+  .link-login a {
+    color: #ffc107;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .link-login a:hover {
+    text-decoration: underline;
+  }
+  
+  .animate-fadein {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .animate-slidein {
+    animation: slideIn 1s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+/* Guest AC System */
+  .topnav {
+    background-color: #333;
+    color: white;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  .hotel-logo-dashboard-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .topnav-icons {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    font-size: 30px;
+  }
+
+  .topnav-icons {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    font-size: 30px;
+  }
+  
+  .topnav-icons i {
+    color: white;
+    cursor: pointer;
+  }
+  
+  .topnav-icons i:hover {
+    color: rgb(224, 213, 179);
+  }
+  
+  .hotel-logo-dashboard-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .hotel-logo-dashboard {
+    height: 50px;
+    width: 50px;
+  }
+  
+  .dashboard-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .dashboard-link h2 {
+    font-weight: 700;
+  }
+
+
+  .acsystem-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  #acsystem-title {
+    font-weight: bold;
+  }
+  
+  #acRooms {
+    margin-top: 2%;
+  }
+  
+  .ac-room-card {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .ac-room-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .ac-popup-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+  
+  .ac-popup-card {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    z-index: 1060;
+  }
+  
+  @media (max-width: 768px) {
+    .ac-popup-card {
+      margin: 20px;
+    }
+  }
+  
+  #acRooms .card-body>h3 {
+    font-size: 2rem;
+  }
+  
+  #acRooms .card-body p {
+    margin-bottom: 0.5rem;
+  }
+  
