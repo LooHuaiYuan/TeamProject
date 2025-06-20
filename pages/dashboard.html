@@ -303,44 +303,37 @@
     }
 
     function updateDateDisplay(timeframe) {
-      const now = new Date();
-      const titleEl = document.getElementById('date-title');
-      const rangeEl = document.getElementById('date-range');
-      const year = now.getFullYear();
-      const month = now.getMonth(); 
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+    // These 'now', 'year', 'month', 'monthNames' are not strictly needed for static display,
+    // but kept for consistency if user changes mind or uses them elsewhere.
+    const now = new Date(); 
+    const titleEl = document.getElementById('date-title');
+    const rangeEl = document.getElementById('date-range');
+    const year = now.getFullYear(); // Current year (e.g., 2025)
+    const month = now.getMonth();   // Current month index (e.g., 5 for June)
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
 
-      if (timeframe === 'day') {
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const weeks = [];
-        let start = 1;
+    titleEl.textContent = ''; // Clear previous content
+    rangeEl.textContent = ''; // Clear previous content
+    rangeEl.style.display = 'block'; // Ensure it's visible if needed
 
-        while (start <= daysInMonth) {
-          const end = Math.min(start + 6, daysInMonth);
-          weeks.push({ start, end });
-          start = end + 1;
-        }
-
-        const today = now.getDate();
-
-        let weekNumber = weeks.findIndex(week => today >= week.start && today <= week.end) + 1;
-        const currentWeek = weeks[weekNumber - 1];
-
-        titleEl.textContent = `Week ${weekNumber} ${monthNames[month]} ${year}`;
-        rangeEl.textContent = `(${currentWeek.start}/${month + 1} ~ ${currentWeek.end}/${month + 1})`;
+    if (timeframe === 'day') {
+        // Static data for Week 2, June 2025
+        titleEl.textContent = "Week 2 June 2025";
+        rangeEl.textContent = "(8/6 ~ 14/6)"; // Assuming month 6 is June
         rangeEl.style.display = 'block';
 
-      } else if (timeframe === 'week') {
-        titleEl.textContent = `${monthNames[month]} ${year}`;
-        rangeEl.style.display = 'none';
+    } else if (timeframe === 'week') {
+        // Static data for May 2025
+        titleEl.textContent = "May 2025";
+        rangeEl.style.display = 'none'; // No specific range for a full month display
 
-      } else if (timeframe === 'month') {
-        titleEl.textContent = `${year}`;
+    } else if (timeframe === 'month') {
+        // This will still display the current year, e.g., '2025'
+        titleEl.textContent = "2025"; 
         rangeEl.style.display = 'none';
-      }
     }
-
+}
 
     document.getElementById('timeframeSelect').addEventListener('change', function () {
       const timeframe = this.value;

@@ -265,6 +265,14 @@
             // Initial load
             fetchACData(floorSelector.value);
 
+            // Toggle sidebar menu
+                const toggleBtn = document.getElementById('toggle-menubar-dashboard');
+                const sidebarDashboard = document.getElementById('sidebar-dashboard');
+
+                toggleBtn.addEventListener('click', () => {
+                    sidebarDashboard.classList.toggle('hidden');
+                });
+
         </script>
 </body>
 
