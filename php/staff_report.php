@@ -7,14 +7,58 @@ include 'database.php'; // external connection file
 $action = $_GET['action'] ?? '';
 
 switch ($action) {
-    case 'get_report':
+case 'get_report':
         handleGetReport($conn);
+        break;
+    case 'get_logs':
+        handleGetLogs($conn);
         break;
     default:
         echo json_encode(['error' => 'Invalid action']);
         break;
 }
 
+// Get Logs Function
+function handleGetLogs($conn) {
+    $username = $_GET['user'] ?? '';
+
+    if (empty($username)) {
+        echo json_encode(['error' => 'Missing username']);
+        return;
+    }
+
+    // Get user ID based on full_name
+    $stmt = $conn->prepare("SELECT id FROM users WHERE full_name = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if (!$user) {
+        echo json_encode(['error' => 'User not found']);
+        return;
+    }
+
+    $userId = $user['id'];
+
+    // Now get logs for the user
+    $stmt = $conn->prepare("SELECT access_time, action FROM user_access_logs WHERE user_id = ? ORDER BY access_time DESC");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $logs = [];
+    while ($row = $result->fetch_assoc()) {
+        $logs[] = [
+            'datetime' => $row['access_time'],
+            'action' => $row['action'] ?? 'Accessed system'
+        ];
+    }
+
+    echo json_encode(['logs' => $logs]);
+}
+
+// Get Report Function
 function handleGetReport($conn) {
     $year = isset($_GET['year']) ? intval($_GET['year']) : 0;
     $month = isset($_GET['month']) ? trim($_GET['month']) : '';
