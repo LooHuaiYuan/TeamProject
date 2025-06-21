@@ -27,7 +27,7 @@ $formatted_date = explode(' ', $date)[0];
 
 // Prepare the SQL query to get hourly data
 $sql = "SELECT record_time as hour, temperature 
-        FROM water_heater 
+        FROM water_heater_page 
         WHERE heater_id = ? AND DATE(record_date) = ?
         ORDER BY hour";
 
