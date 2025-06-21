@@ -182,6 +182,27 @@
     </div>
   </div>
 
+  <!-- Staff Logs Modal -->
+  <div class="modal fade" id="staffLogsModal" tabindex="-1" aria-labelledby="staffLogsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staffLogsModalLabel">Activity Logs</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="staffLogsContent">
+          <div class="text-center py-3">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+            <p>Loading logs...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
   <!-- Sidebar -->
   <script>
     const toggleBtn = document.getElementById('toggle-menubar-dashboard');
@@ -240,7 +261,7 @@
 
       // Properly encode each department name
       const encodedDepartments = selectedDepartments.map(dept => encodeURIComponent(dept));
-      
+
       const displayText = `Selected: ${month} ${year}`;
       document.getElementById('selectedTableText').textContent = displayText;
 
@@ -311,7 +332,7 @@
             'House Keeping Department': 'House Keeping',
             'View Only': 'View Only'
           };
-          
+
           const displayName = displayNames[dept] || dept;
           const deptData = data.by_department && data.by_department[dept] ? data.by_department[dept] : [];
 
@@ -393,9 +414,11 @@
       tablesContainer.prepend(printHeader);
     }
 
-    function createTable(headers, rows) {
+    function createTable(headers, rows, showLogs = true) {
       const tableResponsive = document.createElement('div');
       tableResponsive.className = 'staff-table-responsive';
+      tableResponsive.style.width = '99%';     // Set width
+      tableResponsive.style.margin = '2 auto'; // Center horizontally
 
       const table = document.createElement('table');
       table.className = 'table table-bordered align-middle';
@@ -412,6 +435,14 @@
         headerRow.appendChild(th);
       });
 
+      if (showLogs) {
+        const th = document.createElement('th');
+        th.scope = 'col';
+        th.textContent = 'Logs';
+        th.style.width = '50px'; // change data cell wide [Logs]
+        headerRow.appendChild(th);
+      }
+
       thead.appendChild(headerRow);
       table.appendChild(thead);
 
@@ -426,6 +457,25 @@
           td.textContent = cellData;
           tr.appendChild(td);
         });
+
+        if (showLogs) {
+          const logTd = document.createElement('td');
+          logTd.className = 'text-center';
+          logTd.style.width = '50px'; // change column wide
+          const logIcon = document.createElement('i');
+          logIcon.className = 'fas fa-file-alt text-primary';
+          logIcon.style.cursor = 'pointer';
+          logIcon.title = 'View Logs';
+
+          // TODO: Replace this with actual link logic
+          logIcon.addEventListener('click', () => {
+            const username = rowData[1]; // assuming 2nd column is username
+            showStaffLogs(username);
+          });
+
+          logTd.appendChild(logIcon);
+          tr.appendChild(logTd);
+        }
 
         tbody.appendChild(tr);
       });
@@ -470,5 +520,62 @@
       style.remove();
     });
   </script>
+
+  <!-- show staff logs -->
+  <script>
+    function showStaffLogs(username) {
+      // Open modal
+      const logsModal = new bootstrap.Modal(document.getElementById('staffLogsModal'));
+      logsModal.show();
+
+      // Show loading spinner
+      const logsContent = document.getElementById('staffLogsContent');
+      logsContent.innerHTML = `
+    <div class="text-center py-3">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Loading logs for <strong>${username}</strong>...</p>
+    </div>
+  `;
+
+      // Fetch logs from backend
+      fetch(`../php/staff_report.php?action=get_logs&user=${encodeURIComponent(username)}`)
+        .then(response => {
+          if (!response.ok) throw new Error('Network error');
+          return response.json();
+        })
+        .then(data => {
+          if (data.error) throw new Error(data.error);
+
+          // Display logs in a list or table
+          if (data.logs && data.logs.length > 0) {
+            const logItems = data.logs.map(log => `
+          <tr>
+            <td>${log.datetime}</td>
+            <td>${log.action}</td>
+          </tr>
+        `).join('');
+
+            logsContent.innerHTML = `
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Activity</th>
+              </tr>
+            </thead>
+            <tbody>${logItems}</tbody>
+          </table>
+        `;
+          } else {
+            logsContent.innerHTML = `<p>No logs found for <strong>${username}</strong>.</p>`;
+          }
+        })
+        .catch(err => {
+          logsContent.innerHTML = `<div class="alert alert-danger">Error loading logs: ${err.message}</div>`;
+        });
+    }
+  </script>
+
 </body>
+
 </html>
